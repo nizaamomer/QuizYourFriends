@@ -5,10 +5,18 @@
     </router-link>
 </template>
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router"
+
+const router = useRouter()
 const name = ref(localStorage.getItem('name') || "");
 const start = () => {
     localStorage.setItem("name", name.value);
 };
+onMounted(() => {
+    if (localStorage.getItem("yourQuizId")) {
+        router.push({ name: 'quizes.copy' })
+    }
+})
 </script>
   
