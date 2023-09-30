@@ -1,66 +1,110 @@
-<template>
-   <div class="text-center bg-zinc-900">
-      <div class="text-center font-ckb">
-         <div
-            class="w-full mx-auto max-w-xl  rtl:space-y-reverse space-y-10  bg-transparent border border-transparent text-gray-100 rounded-3xl pt-12 px-4 md:px-8 text-lg font-semibold "
-            dir="rtl">
-            <div v-for="(question, questionIndex) in quizzes.questions" :key="questionIndex"
-               :class="`border-${question.color}-600`" class="border-[2.5px]  rounded-2xl bg-bgray relative ">
-               <div class="absolute right-5 text-sm p-1 px-2 -top-7 bg-rose-600 rounded-t-xl">پرسیاری {{ questionIndex + 1
-               }}
-               </div>
+<template >
+   <div class="text-center bg-zinc-950 relative">
 
-               <div class="rounded-t-3xl p-6 text-xl bg-bgray relative">
+      <div v-if="error" id="toast-danger"
+         class="sticky top-0 font-ckb text-gray-400 right-0 left-0 sm:left-20 sm:right-10 sm:top-14  flex z-50 items-center w-full sm:max-w-xs p-6 mb-4  sm:rounded-lg shadow  bg-indigo-800"
+         role="alert">
+         <div class="ml-3 text-sm font-normal">{{ error }}</div>
+         <button type="button" @click="error = ''"
+            class="ml-auto -mx-1.5 -my-1.5  rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5  inline-flex items-center justify-center h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
+            data-dismiss-target="#toast-danger" aria-label="Close">
+            <span class="sr-only">Close</span>
+            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            </svg>
+         </button>
+      </div>
+
+      <div class="text-center font-ckb pt-10   ">
+
+         <!-- <div id="toast-success" class="absolute top-4 right-4  flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow text-gray-400 bg-gray-800" role="alert">
+    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg bg-green-800 text-green-200">
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+        </svg>
+        <span class="sr-only">Check icon</span>
+    </div>
+    <div class="ml-3 text-sm font-normal">Item moved successfully.</div>
+    <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+        </svg>
+    </button>
+</div> -->
+
+         <div
+            class="w-full mx-auto max-w-xl pb-10 rtl:space-y-reverse space-y-12  bg-transparent border border-transparent text-gray-100 rounded-3xl  px-4 md:px-8 text-lg font-semibold "
+            dir="rtl">
+
+
+            <div class="bg-bgray rounded-2xl text-center space-y-10 py-6 text-gray-300">
+               <h1 class="text-indigo-400 text-2xl mb-5"> پرسیارەکانت {{ name }} گیان :)</h1>
+               <h1>
+                  ✍
+                  دەستکاری پرسیارو وەڵامەکان بکە و <br> وەڵامی دروست بۆ هەریەک لە پرسیارەکانت هەڵبژێرە
+               </h1>
+
+            </div>
+            <div v-for="(question, questionIndex) in quizzes.questions" :key="questionIndex"
+               :style="{ borderColor: question.color }" class="border-[3px]  rounded-2xl bg-bgray relative">
+               <div class="absolute right-5 text-sm p-1 px-2 -top-7  rounded-t-xl "
+                  :style="{ backgroundColor: question.color }">پرسیاری {{ questionIndex + 1
+                  }}
+               </div>
+               <div class="rounded-t-3xl p-4 text-xl bg-bgray relative">
                   <textarea v-model.trim="question.text" maxlength="150"
-                     class="bg-transparent text-base pt-3 border-[2.5px] text-right resize-none outline-none focus:outline-none focus:border-blue-800 whitespace-pre-wrap border-zinc-700 rounded-2xl w-full px-4 h-20"></textarea>
-                  <span class="text-gray-400 text-xs absolute left-8 bottom-10">{{ question.text.length + "/150" }}</span>
+                     class="bg-transparent text-base pt-3 border-[2.8px] text-right resize-none outline-none focus:outline-none focus:border-blue-800 hover:border-blue-800 whitespace-pre-wrap border-zinc-700 rounded-2xl w-full px-4 h-[100px]"></textarea>
+                  <span class="text-gray-400 text-xs absolute left-7 bottom-8">{{ question.text.length + "/150" }}</span>
                </div>
 
                <div v-for="(answer, answerIndex) in question.answers" :key="answerIndex"
-                  class="bg-bgray rounded-b-3xl p-3 space-y-2 rtl:space-y-reverse text-right">
-                  <div class="flex justify-center rtl:space-x-reverse items-center space-x-3">
+                  class="bg-bgray px-4 py-1 text-right">
+                  <!-- Adjusted padding here -->
+                  <div class="flex justify-center rtl:space-x-reverse items-center space-x-2">
                      <label :for="questionIndex + '_' + answerIndex">
                         <i v-if="question.correctAnswer === answerIndex"
-                           class="text-green-500 bg-gray-200 rounded-full  font-bold text-2xl fa-solid fa-circle-check"></i>
+                           class="text-green-500 bg-gray-200 rounded-full font-bold text-2xl fa-solid fa-circle-check"></i>
                         <i v-else class="text-zinc-700 font-bold text-2xl fa-regular fa-circle"></i>
                      </label>
                      <input type="radio" :value="answerIndex" v-model.trim="question.correctAnswer"
                         :id="questionIndex + '_' + answerIndex" class="hidden" />
                      <textarea v-model="answer.text"
                         :class="question.correctAnswer === answerIndex ? 'bg-green-600' : 'bg-transparent'" maxlength="100"
-                        class=" pt-1 items-start border-[2.5px] border-zinc-700 rounded-2xl w-full px-4 h-16 text-right resize-none outline-none focus:outline-none focus:border-blue-800 whitespace-pre-wrap focus:bg-black"></textarea>
-
+                        class="pt-0.5 items-start border-[2.8px] border-zinc-700 rounded-2xl w-full px-4 h-[70px] text-right resize-none outline-none focus:outline-none focus:border-blue-800 hover:border-blue-800 whitespace-pre-wrap focus:bg-black"></textarea>
+                     <!-- Adjusted padding here -->
                      <button class="" @click="deleteAnswer(questionIndex, answerIndex)"
                         :disabled="question.answers.length <= 2">
-                        <i class="fa-solid fa-circle-xmark text-xl bg-gray-100 rounded-full text-rose-600"></i>
+                        <i class="fa-solid fa-circle-xmark text-2xl bg-gray-200 rounded-full text-rose-600"></i>
                      </button>
                   </div>
                </div>
                <button @click="addAnswer(questionIndex)"
-                  class="bg-zinc-700 rounded-3xl px-2 py-1.5 font-bold text-sm mb-3">بژاردەیەک زیاد بکە</button>
+                  class="bg-zinc-700 rounded-2xl px-4 py-1.5 font-bold text-base my-5">بژاردەیەک زیاد بکە</button>
                <div class="flex justify-center items-center space-x-1 rtl:space-x-reverse mb-2">
                   <button v-for="color in colorOptions" :key="color" @click="setQuestionColor(questionIndex, color)">
-                     <i v-if="question.color === color"
-                        :class="`text-${color}-500 border-none bg-white rounded-full font-bold text-2xl fas fa-circle-check`"></i>
-                     <i v-else
-                        :class="`text-${color}-500 bg-${color}-500 rounded-full border-none font-bold text-2xl far fa-circle`"></i>
+                     <i v-if="question.color === color" :style="{ color: question.color }"
+                        class=" border-none bg-white rounded-full font-bold outline-none text-2xl fas fa-circle-check"></i>
+                     <i v-else :style="{ backgroundColor: color }"
+                        class=" rounded-full border-none outline-none text-transparent font-bold text-2xl far fa-circle"></i>
                   </button>
                </div>
             </div>
 
-            <router-link @click.prevent="saveChanges" :to="{ name: 'quizes.copy' }">Save Changes</router-link>
+            <button @click.prevent="saveChanges" class="py-3 mb-2 bg-indigo-700 rounded-full font-bold w-full ">سەیڤیکە {{ name }} گیان</button>
          </div>
       </div>
    </div>
 </template>
  
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from "vue-router"
 import db from "@/firebase"
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-
 const router = useRouter()
+const name = localStorage.getItem("name")
 onMounted(() => {
    if (!localStorage.getItem("name")) {
       router.push({ name: 'welcome' })
@@ -82,110 +126,122 @@ const quizzes = ref({
             { text: 'Narcos' },
          ],
          correctAnswer: null,
-         color: 'rose'
+         color: 'rgb(244, 63, 94)'
       },
-      {
-         text: "کەسێکی بەشیری، مام یان باو؟",
-         answers: [
-            { text: '👩 مام' },
-            { text: '👨 باو' },
-         ],
-         correctAnswer: null,
-         color: 'indigo'
-      },
-      {
-         text: "🎬 فیلمی پەسندیدەوەی بچیچیک؟",
-         answers: [
-            { text: 'Avengers: Endgame' },
-            { text: 'It: Chapter Two' },
-            { text: 'Toy Story 4' },
-            { text: 'Spider-Man: Far From Home' },
-         ],
-         correctAnswer: null,
-         color: 'orange'
-      },
-      {
-         text: "👪 چند زمان بچی بەیە؟",
-         answers: [
-            { text: '10' },
-            { text: '3' },
-            { text: '2' },
-            { text: '1' },
-         ],
-         correctAnswer: null,
-         color: 'yellow'
-      },
-      {
-         text: "ئەگەر بەرەوپێشتر هەموو رووکاری ڕاتیش بڕۆ بخرێت، چی دەخواتەوە؟",
-         answers: [
-            { text: '🍔 برگر' },
-            { text: '🍣 سووشی' },
-            { text: '🍕 پیتزا' },
-            { text: '🌯 بوریتۆ' },
-         ],
-         correctAnswer: null,
-         color: 'green'
-      },
-      {
-         text: "ئەگەر بە یەک رووبارێک داچەیەت بەرز دەیت، کیشە دیاری دەکەی؟",
-         answers: [
-            { text: '🐬 دۆلفین' },
-            { text: '🐇 خرگوش' },
-            { text: '🦈 شارک' },
-            { text: '🐼 پاندای خۆشکراو' },
-         ],
-         correctAnswer: null,
-         color: 'pink'
-      },
-      {
-         text: "🌈 چی رەنگی بچی پەسندیدەوە؟",
-         answers: [
-            { text: 'پینک' },
-            { text: 'نیشتر' },
-            { text: 'پهڕپهڕه' },
-            { text: 'سور' },
-            { text: 'سەوز' },
-         ],
-         correctAnswer: null,
-         color: 'teal'
-      },
-      {
-         text: "📺 سیریزی پەسندیدەوەی بچی؟",
-         answers: [
-            { text: 'The Office' },
-            { text: 'Lost' },
-            { text: 'Breaking Bad' },
-            { text: 'Friends' },
-            { text: 'Game of Thrones' },
-         ],
-         correctAnswer: 4,
-         color: 'purple',
-      },
-      {
-         text: "✈️ ئەگەر بچی دەتوانێ بڕۆ بڕی ئەو شوێنە، ئەوا بووەت؟",
-         answers: [
-            { text: 'هاوایی' },
-            { text: 'نیویۆرک' },
-            { text: 'Breaking Bad' },
-            { text: 'تۆکیۆ' },
-            { text: 'لەندەن' },
-         ],
-         correctAnswer: null,
-         color: 'violet'
-      },
-      {
-         text: "بچی هەرگز...",
-         answers: [
-            { text: '😷 هیچ پێشانگیەکی خۆیە شکستنی هیچ استخوانێک' },
-            { text: '🚽 فۆنی مۆبایلی خۆی لە تویلەت دانەوە' },
-            { text: '😴 زۆرتر لە ٢٤ کاتژمێر بەیدوە بیدۆزێتەوە' },
-            { text: '🍕 یەک کژەی پیتزای خۆیە خواردووە' },
-         ],
-         correctAnswer: null,
-         color: 'zinc'
-      },
+      // {
+      //    text: "کەسێکی بەشیری، مام یان باو؟",
+      //    answers: [
+      //       { text: '👩 مام' },
+      //       { text: '👨 باو' },
+      //    ],
+      //    correctAnswer: null,
+      //    color: 'rgb(99, 102, 241)'
+      // },
+      // {
+      //    text: "🎬 فیلمی پەسندیدەوەی بچیچیک؟",
+      //    answers: [
+      //       { text: 'Avengers: Endgame' },
+      //       { text: 'It: Chapter Two' },
+      //       { text: 'Toy Story 4' },
+      //       { text: 'Spider-Man: Far From Home' },
+      //    ],
+      //    correctAnswer: null,
+      //    color: 'rgb(249, 115, 22)'
+      // },
+      // {
+      //    text: "👪 چند زمان بچی بەیە؟",
+      //    answers: [
+      //       { text: '10' },
+      //       { text: '3' },
+      //       { text: '2' },
+      //       { text: '1' },
+      //    ],
+      //    correctAnswer: null,
+      //    color: 'rgb(236, 72, 153)'
+      // },
+      // {
+      //    text: "ئەگەر بەرەوپێشتر هەموو رووکاری ڕاتیش بڕۆ بخرێت، چی دەخواتەوە؟",
+      //    answers: [
+      //       { text: '🍔 برگر' },
+      //       { text: '🍣 سووشی' },
+      //       { text: '🍕 پیتزا' },
+      //       { text: '🌯 بوریتۆ' },
+      //    ],
+      //    correctAnswer: null,
+      //    color: 'rgb(34, 197, 94)'
+      // },
+      // {
+      //    text: "ئەگەر بە یەک رووبارێک داچەیەت بەرز دەیت، کیشە دیاری دەکەی؟",
+      //    answers: [
+      //       { text: '🐬 دۆلفین' },
+      //       { text: '🐇 خرگوش' },
+      //       { text: '🦈 شارک' },
+      //       { text: '🐼 پاندای خۆشکراو' },
+      //    ],
+      //    correctAnswer: null,
+      //    color: 'rgb(234, 179, 8)'
+      // },
+      // {
+      //    text: "🌈 چی رەنگی بچی پەسندیدەوە؟",
+      //    answers: [
+      //       { text: 'پینک' },
+      //       { text: 'نیشتر' },
+      //       { text: 'پهڕپهڕه' },
+      //       { text: 'سور' },
+      //       { text: 'سەوز' },
+      //    ],
+      //    correctAnswer: null,
+      //    color: 'rgb(37, 99, 235)'
+      // },
+      // {
+      //    text: "📺 سیریزی پەسندیدەوەی بچی؟",
+      //    answers: [
+      //       { text: 'The Office' },
+      //       { text: 'Lost' },
+      //       { text: 'Breaking Bad' },
+      //       { text: 'Friends' },
+      //       { text: 'Game of Thrones' },
+      //    ],
+      //    correctAnswer: 4,
+      //    color: 'rgb(168, 85, 247)',
+      // },
+      // {
+      //    text: "✈️ ئەگەر بچی دەتوانێ بڕۆ بڕی ئەو شوێنە، ئەوا بووەت؟",
+      //    answers: [
+      //       { text: 'هاوایی' },
+      //       { text: 'نیویۆرک' },
+      //       { text: 'Breaking Bad' },
+      //       { text: 'تۆکیۆ' },
+      //       { text: 'لەندەن' },
+      //    ],
+      //    correctAnswer: null,
+      //    color: 'rgb(31, 41, 55)'
+      // },
+      // {
+      //    text: "بچی هەرگز...",
+      //    answers: [
+      //       { text: '😷 هیچ پێشانگیەکی خۆیە شکستنی هیچ استخوانێک' },
+      //       { text: '🚽 فۆنی مۆبایلی خۆی لە تویلەت دانەوە' },
+      //       { text: '😴 زۆرتر لە ٢٤ کاتژمێر بەیدوە بیدۆزێتەوە' },
+      //       { text: '🍕 یەک کژەی پیتزای خۆیە خواردووە' },
+      //    ],
+      //    correctAnswer: null,
+      //    color: 'rgb(239, 68, 68)'
+      // },
    ],
 });
+const colorOptions = [
+   'rgb(244, 63, 94)',
+   'rgb(99, 102, 241)',
+   'rgb(249, 115, 22)',
+   'rgb(236, 72, 153)',
+   'rgb(34, 197, 94)',
+   'rgb(234, 179, 8)',
+   'rgb(37, 99, 235)',
+   'rgb(168, 85, 247)',
+   'rgb(31, 41, 55)',
+   'rgb(239, 68, 68)',
+];
 
 // const quizzes = ref({
 //    creatorName: localStorage.getItem('name'),
@@ -306,34 +362,50 @@ const quizzes = ref({
 // });
 
 // Assuming you have initialized your Firebase Firestore instance as 'db'
-
 const quizzesCollection = collection(db, "Quizzes");
-const quizzesResultCollection = collection(db, "QuizzesResult");
-
+const error = ref("");
 const saveChanges = async () => {
-   try {
-      const quizData = JSON.parse(JSON.stringify(quizzes.value));
+   let hasErrors = false; // Track if there are any errors
 
-      // Add the quiz document to quizzesCollection
-      const docRef = await addDoc(quizzesCollection, quizData);
+   for (const [questionIndex, question] of quizzes.value.questions.entries()) {
+      if (question.text.trim().length === 0) {
+         // error.value = `Question ${questionIndex + 1} text is empty.`;
+         error.value = "...ڕەحمەتت لێبێت خانەی پرسیارەکان بە بەتاڵی جێمەهێڵە";
+         hasErrors = true; // Set the flag to true if there is an error
+      }
+      let hasCorrectAnswer = false;
+      for (const [answerIndex, answer] of question.answers.entries()) {
+         if (answer.text.trim().length === 0) {
+            error.value = "...ڕەحمەتت لێبێت خانەی وەڵامەکان بە بەتاڵی جێمەهێڵە"
+            // error.value = `Answer ${answerIndex + 1} in question ${questionIndex + 1} is empty.`;
+            hasErrors = true; // Set the flag to true if there is an error
+         }
+         if (question.correctAnswer === answerIndex) {
+            hasCorrectAnswer = true;
+         }
+      }
+      if (!hasCorrectAnswer) {
+         error.value = `(: ${name} گیان وەڵامە دروستەکان بە تەواوی هەڵبژێرە دڵە `
+         // error.value = `Question ${questionIndex + 1} does not have a correct answer selected.`;
+         hasErrors = true; // Set the flag to true if there is an error
+      }
+   }
 
-      // Store the document ID in a variable
-      const quizId = docRef.id;
-
-      // Use the same quizId as a custom ID when adding a document to quizzesResultCollection
-      const quizResultRef = doc(quizzesResultCollection, quizId);
-      await setDoc(quizResultRef);
-
-      localStorage.setItem("yourQuizId", quizId);
-   } catch (error) {
-      console.error("Error adding document: ", error);
+   if (!hasErrors) {
+      // No errors, proceed to save to Firebase
+      try {
+         const quizData = JSON.parse(JSON.stringify(quizzes.value));
+         const docRef = await addDoc(quizzesCollection, quizData);
+         const quizId = docRef.id;
+         localStorage.setItem("yourQuizId", quizId);
+         router.push({ name: 'quizes.copy' });
+      } catch (error) {
+         console.error("Error adding document: ", error);
+      }
    }
 };
-
-
-
 const addAnswer = (questionIndex) => {
-   quizzes.value.questions[questionIndex].answers.push({ text: '' });
+   quizzes.value.questions[questionIndex].answers.push({ text: 'شتێک بێژە' });
 };
 const deleteAnswer = (questionIndex, answerIndex) => {
    const question = quizzes.value.questions[questionIndex];
@@ -341,31 +413,29 @@ const deleteAnswer = (questionIndex, answerIndex) => {
       question.answers.splice(answerIndex, 1);
    }
 };
-const colorOptions = [
-   'rose',
-   'yellow',
-   'green',
-   'purple',
-   'violet',
-   'indigo',
-   'pink',
-   'zinc'
-];
+
+watch(error, (newValue) => {
+   if (newValue) {
+      setTimeout(() => {
+         error.value = '';
+      }, 3000);
+   }
+});
 
 const setQuestionColor = (questionIndex, color) => {
    quizzes.value.questions[questionIndex].color = color;
 };
 
-const addQuestion = () => {
-   quizzes.value.questions.push({
-      text: '',
-      answers: [{ text: '' }],
-      correctAnswer: null,
-      color: '', // Add a default color
-   });
-};
-const deleteQuestion = (questionIndex) => {
-   quizzes.value.questions.splice(questionIndex, 1);
-};
+// const addQuestion = () => {
+//    quizzes.value.questions.push({
+//       text: '',
+//       answers: [{ text: '' }],
+//       correctAnswer: null,
+//       color: '', // Add a default color
+//    });
+// };
+// const deleteQuestion = (questionIndex) => {
+//    quizzes.value.questions.splice(questionIndex, 1);
+// };
 </script>
  

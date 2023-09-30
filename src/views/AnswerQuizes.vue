@@ -1,9 +1,9 @@
 <template>
-   <div class="text-center  h-screen" :class="currentQuestionColor">
+   <div class="text-center  h-screen" :style="{ backgroundColor: currentQuestionColor.rgba }">
       <div
          class="w-full mx-auto max-w-2xl space-y-5 bg-transparent border border-transparent text-gray-100 rounded-3xl pt-12 px-4 md:px-8 text-lg font-semibold">
          <div>
-            <div class="bg-red-500 rounded-t-3xl p-6 text-xl">
+            <div class="rounded-t-3xl p-6 text-xl" :style="{ backgroundColor: currentQuestionColor.rgb }">
                {{ Quizzes.creatorName }}'s Quiz
             </div>
             <div class="bg-gray-900 rounded-b-3xl p-6">
@@ -18,7 +18,7 @@
             </div>
          </div>
          <div v-if="currentQuestionIndex < (Quizzes.questions ? Quizzes.questions.length : 0)">
-            <div class=" rounded-t-3xl p-6 text-xl" :class="currentQuestionColor">
+            <div class=" rounded-t-3xl p-6 text-xl" :style="{ backgroundColor: currentQuestionColor.rgb }">
                {{ Quizzes.questions[currentQuestionIndex].text }}
             </div>
             <div class="bg-gray-900 rounded-b-3xl p-6 space-y-2 text-right">
@@ -76,24 +76,26 @@ onMounted(async () => {
 });
 
 
+
 const currentQuestionColor = computed(() => {
    if (
       Quizzes.value.questions &&
       Quizzes.value.questions.length > 0 &&
       currentQuestionIndex.value < Quizzes.value.questions.length
    ) {
-      const color = Quizzes.value.questions[currentQuestionIndex.value].color;
-      const dynamicClass = "bg-" + color + "-500";
-      return dynamicClass;
+      const rgbColor = `rgb${Quizzes.value.questions[currentQuestionIndex.value].color.slice(3, -1)}`;
+      const rgbaColor = `rgba${Quizzes.value.questions[currentQuestionIndex.value].color.slice(3, -1)}, 0.7)`;
+
+      return { rgb: rgbColor, rgba: rgbaColor };
    } else {
-      return '';
+      return { rgb: '', rgba: '' };
    }
 });
 
-watch([currentQuestionIndex], () => {
-   currentQuestionColor.value = 'bg-blue-400';
-   console.log(currentQuestionColor.value);
-});
+// You can now use 'currentQuestionColor' in your component's template or elsewhere in your code.
+
+
+
 
 // watch([currentQuestionIndex, () => Quizzes.value.questions], () => {
 
@@ -119,18 +121,23 @@ const selectAnswer = (ansIndex) => {
       }, 2000);
    }
 };
+
+
 const name = localStorage.getItem("name");
-const quizzesResultCollection = collection(db, "QuizzesResult");
+const quizzesResultCollection = collection(db, "Quizzes");
 
 const showResults = async () => {
    console.log("Quiz completed! Total Correct Answers: ", totalCorrectAnswers.value);
    localStorage.setItem(quizId, totalCorrectAnswers.value);
-   router.push({ name: 'answer.result' });
+
+
    try {
       const docRef = doc(quizzesResultCollection, quizId);
       const docSnapshot = await getDoc(docRef);
+
       if (docSnapshot.exists()) {
          const existingData = docSnapshot.data();
+
          if (existingData.results) {
             existingData.results.push({
                name: name,
@@ -142,7 +149,11 @@ const showResults = async () => {
                correctResult: totalCorrectAnswers.value
             }];
          }
-         await setDoc(docRef, existingData);
+
+         await updateDoc(docRef, {
+            results: existingData.results
+         });
+         router.push({ name: 'answer.result' });
       } else {
          // Create a new document with the results array
          await setDoc(docRef, {
@@ -156,7 +167,6 @@ const showResults = async () => {
       console.error("Error updating/adding document: ", error);
    }
 };
-
 
 
 
