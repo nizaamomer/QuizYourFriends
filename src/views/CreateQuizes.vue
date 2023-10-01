@@ -1,5 +1,6 @@
 <template >
    <div class="text-center bg-zinc-950 relative">
+   
 
       <div v-if="error" id="toast-danger"
          class="sticky top-0 font-ckb text-gray-400 right-0 left-0 sm:left-20 sm:right-10 sm:top-14  flex z-50 items-center w-full sm:max-w-xs p-6 mb-4  sm:rounded-lg shadow  bg-indigo-800"
@@ -18,21 +19,7 @@
 
       <div class="text-center font-ckb pt-10   ">
 
-         <!-- <div id="toast-success" class="absolute top-4 right-4  flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow text-gray-400 bg-gray-800" role="alert">
-    <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg bg-green-800 text-green-200">
-        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-        </svg>
-        <span class="sr-only">Check icon</span>
-    </div>
-    <div class="ml-3 text-sm font-normal">Item moved successfully.</div>
-    <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
-        <span class="sr-only">Close</span>
-        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-        </svg>
-    </button>
-</div> -->
+        
 
          <div
             class="w-full mx-auto max-w-xl pb-10 rtl:space-y-reverse space-y-12  bg-transparent border border-transparent text-gray-100 rounded-3xl  px-4 md:px-8 text-lg font-semibold "
@@ -128,106 +115,106 @@ const quizzes = ref({
          correctAnswer: null,
          color: 'rgb(244, 63, 94)'
       },
-      // {
-      //    text: "کەسێکی بەشیری، مام یان باو؟",
-      //    answers: [
-      //       { text: '👩 مام' },
-      //       { text: '👨 باو' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(99, 102, 241)'
-      // },
-      // {
-      //    text: "🎬 فیلمی پەسندیدەوەی بچیچیک؟",
-      //    answers: [
-      //       { text: 'Avengers: Endgame' },
-      //       { text: 'It: Chapter Two' },
-      //       { text: 'Toy Story 4' },
-      //       { text: 'Spider-Man: Far From Home' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(249, 115, 22)'
-      // },
-      // {
-      //    text: "👪 چند زمان بچی بەیە؟",
-      //    answers: [
-      //       { text: '10' },
-      //       { text: '3' },
-      //       { text: '2' },
-      //       { text: '1' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(236, 72, 153)'
-      // },
-      // {
-      //    text: "ئەگەر بەرەوپێشتر هەموو رووکاری ڕاتیش بڕۆ بخرێت، چی دەخواتەوە؟",
-      //    answers: [
-      //       { text: '🍔 برگر' },
-      //       { text: '🍣 سووشی' },
-      //       { text: '🍕 پیتزا' },
-      //       { text: '🌯 بوریتۆ' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(34, 197, 94)'
-      // },
-      // {
-      //    text: "ئەگەر بە یەک رووبارێک داچەیەت بەرز دەیت، کیشە دیاری دەکەی؟",
-      //    answers: [
-      //       { text: '🐬 دۆلفین' },
-      //       { text: '🐇 خرگوش' },
-      //       { text: '🦈 شارک' },
-      //       { text: '🐼 پاندای خۆشکراو' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(234, 179, 8)'
-      // },
-      // {
-      //    text: "🌈 چی رەنگی بچی پەسندیدەوە؟",
-      //    answers: [
-      //       { text: 'پینک' },
-      //       { text: 'نیشتر' },
-      //       { text: 'پهڕپهڕه' },
-      //       { text: 'سور' },
-      //       { text: 'سەوز' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(37, 99, 235)'
-      // },
-      // {
-      //    text: "📺 سیریزی پەسندیدەوەی بچی؟",
-      //    answers: [
-      //       { text: 'The Office' },
-      //       { text: 'Lost' },
-      //       { text: 'Breaking Bad' },
-      //       { text: 'Friends' },
-      //       { text: 'Game of Thrones' },
-      //    ],
-      //    correctAnswer: 4,
-      //    color: 'rgb(168, 85, 247)',
-      // },
-      // {
-      //    text: "✈️ ئەگەر بچی دەتوانێ بڕۆ بڕی ئەو شوێنە، ئەوا بووەت؟",
-      //    answers: [
-      //       { text: 'هاوایی' },
-      //       { text: 'نیویۆرک' },
-      //       { text: 'Breaking Bad' },
-      //       { text: 'تۆکیۆ' },
-      //       { text: 'لەندەن' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(31, 41, 55)'
-      // },
-      // {
-      //    text: "بچی هەرگز...",
-      //    answers: [
-      //       { text: '😷 هیچ پێشانگیەکی خۆیە شکستنی هیچ استخوانێک' },
-      //       { text: '🚽 فۆنی مۆبایلی خۆی لە تویلەت دانەوە' },
-      //       { text: '😴 زۆرتر لە ٢٤ کاتژمێر بەیدوە بیدۆزێتەوە' },
-      //       { text: '🍕 یەک کژەی پیتزای خۆیە خواردووە' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(239, 68, 68)'
-      // },
+      {
+         text: "کەسێکی بەشیری، مام یان باو؟",
+         answers: [
+            { text: '👩 مام' },
+            { text: '👨 باو' },
+         ],
+         correctAnswer: null,
+         color: 'rgb(99, 102, 241)'
+      },
+      {
+         text: "🎬 فیلمی پەسندیدەوەی بچیچیک؟",
+         answers: [
+            { text: 'Avengers: Endgame' },
+            { text: 'It: Chapter Two' },
+            { text: 'Toy Story 4' },
+            { text: 'Spider-Man: Far From Home' },
+         ],
+         correctAnswer: null,
+         color: 'rgb(249, 115, 22)'
+      },
+      {
+         text: "👪 چند زمان بچی بەیە؟",
+         answers: [
+            { text: '10' },
+            { text: '3' },
+            { text: '2' },
+            { text: '1' },
+         ],
+         correctAnswer: null,
+         color: 'rgb(236, 72, 153)'
+      },
+      {
+         text: "ئەگەر بەرەوپێشتر هەموو رووکاری ڕاتیش بڕۆ بخرێت، چی دەخواتەوە؟",
+         answers: [
+            { text: '🍔 برگر' },
+            { text: '🍣 سووشی' },
+            { text: '🍕 پیتزا' },
+            { text: '🌯 بوریتۆ' },
+         ],
+         correctAnswer: null,
+         color: 'rgb(34, 197, 94)'
+      },
+      {
+         text: "ئەگەر بە یەک رووبارێک داچەیەت بەرز دەیت، کیشە دیاری دەکەی؟",
+         answers: [
+            { text: '🐬 دۆلفین' },
+            { text: '🐇 خرگوش' },
+            { text: '🦈 شارک' },
+            { text: '🐼 پاندای خۆشکراو' },
+         ],
+         correctAnswer: null,
+         color: 'rgb(234, 179, 8)'
+      },
+      {
+         text: "🌈 چی رەنگی بچی پەسندیدەوە؟",
+         answers: [
+            { text: 'پینک' },
+            { text: 'نیشتر' },
+            { text: 'پهڕپهڕه' },
+            { text: 'سور' },
+            { text: 'سەوز' },
+         ],
+         correctAnswer: null,
+         color: 'rgb(37, 99, 235)'
+      },
+      {
+         text: "📺 سیریزی پەسندیدەوەی بچی؟",
+         answers: [
+            { text: 'The Office' },
+            { text: 'Lost' },
+            { text: 'Breaking Bad' },
+            { text: 'Friends' },
+            { text: 'Game of Thrones' },
+         ],
+         correctAnswer: 4,
+         color: 'rgb(168, 85, 247)',
+      },
+      {
+         text: "✈️ ئەگەر بچی دەتوانێ بڕۆ بڕی ئەو شوێنە، ئەوا بووەت؟",
+         answers: [
+            { text: 'هاوایی' },
+            { text: 'نیویۆرک' },
+            { text: 'Breaking Bad' },
+            { text: 'تۆکیۆ' },
+            { text: 'لەندەن' },
+         ],
+         correctAnswer: null,
+         color: 'rgb(31, 41, 55)'
+      },
+      {
+         text: "بچی هەرگز...",
+         answers: [
+            { text: '😷 هیچ پێشانگیەکی خۆیە شکستنی هیچ استخوانێک' },
+            { text: '🚽 فۆنی مۆبایلی خۆی لە تویلەت دانەوە' },
+            { text: '😴 زۆرتر لە ٢٤ کاتژمێر بەیدوە بیدۆزێتەوە' },
+            { text: '🍕 یەک کژەی پیتزای خۆیە خواردووە' },
+         ],
+         correctAnswer: null,
+         color: 'rgb(239, 68, 68)'
+      },
    ],
 });
 const colorOptions = [
