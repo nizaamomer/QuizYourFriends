@@ -22,13 +22,7 @@
             ✍
             دەستکاری پرسیارو وەڵامەکان بکە و <br> وەڵامی دروست بۆ هەریەک لە پرسیارەکانت هەڵبژێرە
          </h1>
-         <div class="flex justify-around">
-            <img src="../assets/images/bird.png" alt="friendship image" class="w-16 h-16 md:w-24 md:h-24">
-            <img src="../assets/images/ballon.png" alt="friendship image" class="w16 h-16 md:w-24 md:h-24">
-            <img src="../assets/images/emoji.png" alt="friendship image" class="w16 h-16 md:w-24 md:h-24">
-            <img src="../assets/images/finger.png" alt="friendship image" class="w16 h-16 md:w-24 md:h-24">
-
-         </div>
+         <Icons />
       </div>
       <div v-for="(question, questionIndex) in quizzes.questions" :key="questionIndex"
          :style="{ borderColor: question.color }" class="border-[3px]  rounded-3xl bg-bgray relative">
@@ -82,16 +76,17 @@ import { ref, onMounted, watch } from 'vue';
 import { useRouter } from "vue-router"
 import db from "@/firebase"
 import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import Icons from "@/components/Icons.vue";
 const router = useRouter()
 const name = localStorage.getItem("name")
-onMounted(() => {
-   if (!localStorage.getItem("name")) {
-      router.push({ name: 'welcome' })
-   }
-   if (localStorage.getItem("yourQuizId") && localStorage.getItem("name")) {
-      router.push({ name: 'quizes.copy' })
-   }
-})
+// onMounted(() => {
+//    if (!localStorage.getItem("name")) {
+//       router.push({ name: 'welcome' })
+//    }
+//    if (localStorage.getItem("yourQuizId") && localStorage.getItem("name")) {
+//       router.push({ name: 'quizes.copy' })
+//    }
+// })
 
 const quizzes = ref({
    creatorName: localStorage.getItem('name'),
@@ -378,7 +373,7 @@ const saveChanges = async () => {
          const docRef = await addDoc(quizzesCollection, quizData);
          const quizId = docRef.id;
          localStorage.setItem("yourQuizId", quizId);
-         router.push({ name: 'quizes.copy' });
+         // router.push({ name: 'quizes.copy' });
       } catch (error) {
          console.error("Error adding document: ", error);
       }
