@@ -1,5 +1,6 @@
 <template>
-    <div id="home" class="w-full mx-auto relative flex flex-col  justify-center my-4  items-stretch text-center max-w-2xl font-ckb  bg-transparent border border-transparent text-gray-100 rounded-3xl px-4 md:px-8 text-lg font-semibold"
+    <div id="home"
+        class="w-full mx-auto relative flex flex-col  justify-center my-4  items-stretch text-center max-w-2xl font-ckb  bg-transparent border border-transparent text-gray-100 rounded-3xl px-4 md:px-8 text-lg font-semibold"
         :class="startAnimation">
         <div class="space-y-6 ">
             <h1 class="text-center text-3xl md:text-3xl text-indigo-500">بەخێربێی گیان</h1>
@@ -10,6 +11,9 @@
             <Guide />
             <Input v-model="name" />
             <Button :start="start" :name="name" />
+            <br><br>
+            <br><br>
+            <Icons />
         </div>
     </div>
 </template>
@@ -19,6 +23,7 @@ import { useRouter } from "vue-router";
 import Guide from "@/components/Guide.vue"
 import Input from "@/components/Input.vue"
 import Button from "@/components/Button.vue"
+import Icons from "@/components/Icons.vue"
 const router = useRouter();
 const name = ref(localStorage.getItem('name') || "");
 const emits = defineEmits();

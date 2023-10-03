@@ -5,6 +5,7 @@
         <CreateQuizzes v-else-if="!showWelcome && !haveQuistion" @haveQuistion="haveQuistion = true" />
         <Dashboard v-if="haveQuistion && !showWelcome" @haveQuistion="haveQuistion = false" />
         <Footer />
+       
     </div>
 </template>
 <script setup>

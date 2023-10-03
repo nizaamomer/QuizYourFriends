@@ -13,9 +13,9 @@
          </svg>
       </button>
    </div>
-   <div
-     id="home" class="w-full mx-auto relative flex flex-col justify-center items-stretch max-w-2xl my-8 text-gray-100 px-3 md:px-8 text-lg font-semibold space-y-12 space-y-reverse"
-      :class="startAnimation" >
+   <div id="home"
+      class="w-full mx-auto relative flex flex-col justify-center items-stretch max-w-2xl my-8 text-gray-100 px-3 md:px-8 text-lg font-semibold space-y-12 space-y-reverse"
+      :class="startAnimation">
       <div class="bg-bgray rounded-2xl text-center space-y-10 py-6 text-gray-300 mb-12">
          <h1 class="text-indigo-400 text-2xl mb-5"> پرسیارەکانت دروست بکە </h1>
          <h1 class="text-gray-400 text-lg md:text-xl">
@@ -32,7 +32,7 @@
          </div>
          <div class="rounded-t-3xl p-4 text-xl bg-bgray relative">
             <textarea v-model.trim="question.text" maxlength="150"
-               class="bg-transparent text-base pt-3 border-[2.8px] text-right resize-none outline-none focus:outline-none focus:border-blue-800 hover:border-blue-800 focus:bg-black whitespace-pre-wrap border-zinc-700 rounded-2xl w-full px-4 h-[100px]"></textarea>
+               class="bg-transparent text2xl pt-3 border-[2.8px] text-right resize-none outline-none focus:outline-none focus:border-blue-800 hover:border-blue-800 focus:bg-black whitespace-pre-wrap border-zinc-700 rounded-2xl w-full px-4 h-[100px]"></textarea>
             <span v-if="question.text" class="text-gray-400 text-xs absolute left-7 bottom-8">{{ question.text.length +
                "/150" }}</span>
          </div>
@@ -48,7 +48,7 @@
                   :id="questionIndex + '_' + answerIndex" class="hidden" />
                <textarea v-model="answer.text"
                   :class="question.correctAnswer === answerIndex ? 'bg-green-600' : 'bg-transparent'" maxlength="100"
-                  class="pt-0.5 items-start border-[2.8px] border-zinc-700 rounded-2xl w-full px-4 h-[70px] text-right resize-none outline-none focus:outline-none focus:border-blue-800 hover:border-blue-800 whitespace-pre-wrap focus:bg-black"></textarea>
+                  class="pt-0.5 text-lg items-start border-[2.8px] border-zinc-700 rounded-2xl w-full px-4 h-[70px] text-right resize-none outline-none focus:outline-none focus:border-blue-800 hover:border-blue-800 whitespace-pre-wrap focus:bg-black"></textarea>
 
                <button class="" @click="deleteAnswer(questionIndex, answerIndex)" :disabled="question.answers.length <= 2">
                   <i class="fa-solid fa-circle-xmark text-2xl bg-gray-200 rounded-full text-rose-700"></i>
@@ -66,136 +66,19 @@
             </button>
          </div>
       </div>
-      <button @click.prevent="saveChanges" class="py-3 mb-2 bg-indigo-700 rounded-full font-bold w-full ">سەیڤیکە {{
+      <button @click.prevent="saveChanges" class="py-3 mb-2 bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 rounded-full font-bold w-full ">سەیڤیکە {{
          name }} گیان</button>
 
    </div>
 </template>
 <script setup>
-import { ref, watch ,onMounted} from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useRouter } from "vue-router"
 import db from "@/firebase"
 import { collection, addDoc } from "firebase/firestore";
 import Icons from "@/components/Icons.vue";
 const router = useRouter()
 const name = localStorage.getItem("name")
-const quizzes = ref({
-   creatorName: localStorage.getItem('name'),
-   date: Date.now(),
-   questions: [
-      {
-         text: "🍿 سیریزی پەسندیدەوەی بچیچیکی نتفلیکس؟",
-         answers: [
-            { text: 'Stranger Things' },
-            { text: 'Friends' },
-            { text: '13 Reasons Why' },
-            { text: 'Narcos' },
-         ],
-         correctAnswer: null,
-         color: 'rgb(244, 63, 94)'
-      },
-      {
-         text: "کەسێکی بەشیری، مام یان باو؟",
-         answers: [
-            { text: '👩 مام' },
-            { text: '👨 باو' },
-         ],
-         correctAnswer: null,
-         color: 'rgb(99, 102, 241)'
-      },
-      {
-         text: "🎬 فیلمی پەسندیدەوەی بچیچیک؟",
-         answers: [
-            { text: 'Avengers: Endgame' },
-            { text: 'It: Chapter Two' },
-            { text: 'Toy Story 4' },
-            { text: 'Spider-Man: Far From Home' },
-         ],
-         correctAnswer: null,
-         color: 'rgb(249, 115, 22)'
-      },
-      {
-         text: "👪 چند زمان بچی بەیە؟",
-         answers: [
-            { text: '10' },
-            { text: '3' },
-            { text: '2' },
-            { text: '1' },
-         ],
-         correctAnswer: null,
-         color: 'rgb(236, 72, 153)'
-      },
-      // {
-      //    text: "ئەگەر بەرەوپێشتر هەموو رووکاری ڕاتیش بڕۆ بخرێت، چی دەخواتەوە؟",
-      //    answers: [
-      //       { text: '🍔 برگر' },
-      //       { text: '🍣 سووشی' },
-      //       { text: '🍕 پیتزا' },
-      //       { text: '🌯 بوریتۆ' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(34, 197, 94)'
-      // },
-      // {
-      //    text: "ئەگەر بە یەک رووبارێک داچەیەت بەرز دەیت، کیشە دیاری دەکەی؟",
-      //    answers: [
-      //       { text: '🐬 دۆلفین' },
-      //       { text: '🐇 خرگوش' },
-      //       { text: '🦈 شارک' },
-      //       { text: '🐼 پاندای خۆشکراو' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(234, 179, 8)'
-      // },
-      // {
-      //    text: "🌈 چی رەنگی بچی پەسندیدەوە؟",
-      //    answers: [
-      //       { text: 'پینک' },
-      //       { text: 'نیشتر' },
-      //       { text: 'پهڕپهڕه' },
-      //       { text: 'سور' },
-      //       { text: 'سەوز' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(37, 99, 235)'
-      // },
-      // {
-      //    text: "📺 سیریزی پەسندیدەوەی بچی؟",
-      //    answers: [
-      //       { text: 'The Office' },
-      //       { text: 'Lost' },
-      //       { text: 'Breaking Bad' },
-      //       { text: 'Friends' },
-      //       { text: 'Game of Thrones' },
-      //    ],
-      //    correctAnswer: 4,
-      //    color: 'rgb(168, 85, 247)',
-      // },
-      // {
-      //    text: "✈️ ئەگەر بچی دەتوانێ بڕۆ بڕی ئەو شوێنە، ئەوا بووەت؟",
-      //    answers: [
-      //       { text: 'هاوایی' },
-      //       { text: 'نیویۆرک' },
-      //       { text: 'Breaking Bad' },
-      //       { text: 'تۆکیۆ' },
-      //       { text: 'لەندەن' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(31, 41, 55)'
-      // },
-      // {
-      //    text: "بچی هەرگز...",
-      //    answers: [
-      //       { text: '😷 هیچ پێشانگیەکی خۆیە شکستنی هیچ استخوانێک' },
-      //       { text: '🚽 فۆنی مۆبایلی خۆی لە تویلەت دانەوە' },
-      //       { text: '😴 زۆرتر لە ٢٤ کاتژمێر بەیدوە بیدۆزێتەوە' },
-      //       { text: '🍕 یەک کژەی پیتزای خۆیە خواردووە' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(239, 68, 68)'
-      // },
-   ],
-});
 const colorOptions = [
    'rgb(244, 63, 94)',
    'rgb(99, 102, 241)',
@@ -208,125 +91,130 @@ const colorOptions = [
    'rgb(31, 41, 55)',
    'rgb(239, 68, 68)',
 ];
+
+const quizzes = ref({
+   creatorName: localStorage.getItem('name'),
+   date: Date.now(),
+   questions: [
+      {
+         text: `ئەگەر ${name} ناچار بێت هەموو ڕۆژێک هەمان خواردن بۆ ژەمی ئێوارە بخوات، چی هەڵدەبژێرن؟`,
+         answers: [
+            { text: '🍔 بەرگر' },
+            { text: '🍗 برنج و مریشک' },
+            { text: '🍕 پیتزا' },
+            { text: '🌯 فەلافل ڕەزیل' },
+         ],
+         correctAnswer: null,
+         color: colorOptions[0],
+      },
+
+      {
+         text: `${name} کێی زۆر خۆش ئەوێ لە ناو بێستەکانی💞`,
+         answers: [
+            { text: 'نازە' },
+            { text: 'کارە' },
+            { text: 'محمد' },
+            { text: 'سۆزەی کرەشی' },
+         ],
+         correctAnswer: null,
+         color: colorOptions[1],
+      },
+      {
+         text: `🎬 خۆشەویستترین فیلمی ${name} چییە؟`,
+         answers: [
+            { text: 'Interstellar 🚀' },
+            { text: 'Toy Story 4' },
+            { text: 'Spider-Man: Far From Home' },
+            { text: '' },
+         ],
+         correctAnswer: null,
+         color: colorOptions[2],
+      },
+      {
+         text: `👪 چەند منداڵی دەبێت ${name} لە داهاتوو ؟`,
+         answers: [
+            { text: '3' },
+            { text: '2' },
+            { text: '1' },
+            { text: '10' },
+         ],
+         correctAnswer: null,
+         color: colorOptions[3],
+      },
+      {
+         text: `🍿 دڵخوازترین زنجیرەی ${name} چییە؟`,
+         answers: [
+            { text: 'Stranger Things' },
+            { text: 'Friends' },
+            { text: 'Game of thrones' },
+            { text: 'سەمای تەرزە 🦦' },
+         ],
+         correctAnswer: null,
+         color: colorOptions[4],
+      },
+      {
+         text: `ئەگەر ${name} بتوانێت بۆ ماوەی ڕۆژێک هەر ئاژەڵێک بێت، کامیان دەبێت؟ 😂`,
+         answers: [
+            { text: '🐬 دۆلفین' },
+            { text: '🐇 کەوێشک' },
+            { text: '😸 پشیلە' },
+            { text: '🐼 پاندا' },
+         ],
+         correctAnswer: null,
+         color: colorOptions[5],
+      },
+      {
+         text: ` ڕەنگی دڵخوازی ${name} چییە؟`,
+         answers: [
+            { text: 'پینکی پینکی' },
+            { text: 'شین' },
+            { text: 'سور' },
+            { text: 'زەرد' },
+            { text: 'سەوز' },
+         ],
+         correctAnswer: null,
+         color: colorOptions[6],
+      },
+      {
+         text: `📺 What is ${name}'s favorite TV show?`,
+         answers: [
+            { text: 'The Office' },
+            { text: 'Lost' },
+            { text: 'Breaking Bad' },
+            { text: 'Friends' },
+            { text: 'Game of Thrones' },
+         ],
+         correctAnswer: null,
+         color: colorOptions[7],
+      },
+      {
+         text: `ئەگەر ${name} بچێت بۆ گەشت یەکەم شوێن کە بڕوات... ✈️`,
+         answers: [
+            { text: 'نیویۆرک' },
+            { text: 'هاوایی' },
+            { text: 'کەنەدا' },
+            { text: 'پاریس' },
+            { text: 'شارەزوور' },
+         ],
+         correctAnswer: null,
+         color: colorOptions[8],
+      },
+      {
+         text: `${name} هەرگیز هەرگیز...`,
+         answers: [
+            { text: '😷 دڵی کەس ناشکێنێت' },
+            { text: '🚽 Dropped their cellphone in the toilet' },
+            { text: '😴 Stayed up for more than 24 hours' },
+            { text: '🍕 Ate a whole pizza by themselves' },
+         ],
+         correctAnswer: null,
+         color: colorOptions[9],
+      },
+   ],
+});
+
 const startAnimation = ref("")
 const emits = defineEmits();
-// const quizzes = ref({
-//    creatorName: localStorage.getItem('name'),
-//    date: Date.now(),
-//    questions: [
-//       {
-//          text: "🍿 What is s's favorite series on Netflix?",
-//          answers: [
-//             { text: 'Stranger Things' },
-//             { text: 'Friends' },
-//             { text: '13 Reasons Why' },
-//             { text: 'Narcos' },
-//          ],
-//          correctAnswer: null,
-//          color: 'rose'
-//       },
-//       {
-//          text: "Who is s's favorite, Mom or Dad?",
-//          answers: [
-//             { text: '👩 Mom' },
-//             { text: '👨 Dad' },
-//          ],
-//          correctAnswer: null,
-//          color: 'indigo'
-//       },
-//       {
-//          text: "🎬 What is s's favorite movie?",
-//          answers: [
-//             { text: 'Avengers: Endgame' },
-//             { text: 'It: Chapter Two' },
-//             { text: 'Toy Story 4' },
-//             { text: 'Spider-Man: Far From Home' },
-//          ],
-//          correctAnswer: null,
-//          color: 'orange'
-//       },
-//       {
-//          text: "👪 How many kids will s have?",
-//          answers: [
-//             { text: '10' },
-//             { text: '3' },
-//             { text: '2' },
-//             { text: '1' },
-//          ],
-//          correctAnswer: null,
-//          color: 'yellow'
-//       },
-//       {
-//          text: "If s had to eat the same food for dinner every day, what would he pick?",
-//          answers: [
-//             { text: '🍔 Burger' },
-//             { text: '🍣 Sushi' },
-//             { text: '🍕 Pizza' },
-//             { text: '🌯 Burrito' },
-//          ],
-//          correctAnswer: null,
-//          color: 'green'
-//       },
-//       {
-//          text: "If s could be any animal for a day, which one would it be?",
-//          answers: [
-//             { text: '🐬 Dolphin' },
-//             { text: '🐇 Rabbit' },
-//             { text: '🦈 Shark' },
-//             { text: '🐼 Panda bear' },
-//          ],
-//          correctAnswer: null,
-//          color: 'pink'
-//       },
-//       {
-//          text: "🌈 What is s's favorite color?",
-//          answers: [
-//             { text: 'Pink' },
-//             { text: 'Blue' },
-//             { text: 'Purple' },
-//             { text: 'Red' },
-//             { text: 'Green' },
-//          ],
-//          correctAnswer: null,
-//          color: 'teal'
-//       },
-//       {
-//          text: "📺 What is s's favorite TV show?",
-//          answers: [
-//             { text: 'The Office' },
-//             { text: 'Lost' },
-//             { text: 'Breaking Bad' },
-//             { text: 'Friends' },
-//             { text: 'Game of Thrones' },
-//          ],
-//          correctAnswer: 4,
-//          color: 'purple',
-//       },
-//       {
-//          text: "✈️ If s could go anywhere, it would be...",
-//          answers: [
-//             { text: 'Hawaii' },
-//             { text: 'New York' },
-//             { text: 'Breaking Bad' },
-//             { text: 'Tokio' },
-//             { text: 'London' },
-//          ],
-//          correctAnswer: null,
-//          color: 'violet'
-//       },
-//       {
-//          text: "s has never ever...",
-//          answers: [
-//             { text: '😷 Broken a bone' },
-//             { text: '🚽 Dropped his/her cellphone in the toilet' },
-//             { text: '😴 Stayed up for more than 24 hours' },
-//             { text: '🍕 Ate a whole pizza by himself/herself' },
-//          ],
-//          correctAnswer: null,
-//          color: 'zinc'
-//       },
-//    ],
-// });
 
 // Assuming you have initialized your Firebase Firestore instance as 'db'
 const quizzesCollection = collection(db, "Quizzes");
@@ -375,10 +263,10 @@ const saveChanges = async () => {
    }
 };
 const scrollToTop = () => {
-    const scrollContainer = document.getElementById('home');
-    if (scrollContainer) {
-        scrollContainer.scrollTop = 0;
-    }
+   const scrollContainer = document.getElementById('home');
+   if (scrollContainer) {
+      scrollContainer.scrollTop = 0;
+   }
 }
 
 const addAnswer = (questionIndex) => {
