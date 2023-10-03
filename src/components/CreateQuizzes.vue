@@ -18,7 +18,7 @@
 
       <div class="bg-bgray rounded-2xl text-center space-y-10 py-6 text-gray-300 mb-12">
          <h1 class="text-indigo-400 text-2xl mb-5"> پرسیارەکانت دروست بکە </h1>
-         <h1>
+         <h1 class="text-gray-400 text-lg md:text-xl">
             ✍
             دەستکاری پرسیارو وەڵامەکان بکە و <br> وەڵامی دروست بۆ هەریەک لە پرسیارەکانت هەڵبژێرە
          </h1>
