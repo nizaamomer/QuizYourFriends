@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full mx-auto relative flex flex-col  justify-center my-4  items-stretch text-center max-w-2xl font-ckb  bg-transparent border border-transparent text-gray-100 rounded-3xl px-4 md:px-8 text-lg font-semibold"
+    <div id="home" class="w-full mx-auto relative flex flex-col  justify-center my-4  items-stretch text-center max-w-2xl font-ckb  bg-transparent border border-transparent text-gray-100 rounded-3xl px-4 md:px-8 text-lg font-semibold"
         :class="startAnimation">
         <div class="space-y-6 ">
             <h1 class="text-center text-3xl md:text-3xl text-indigo-500">بەخێربێی گیان</h1>
@@ -27,12 +27,15 @@ const start = () => {
     startAnimation.value = 'transition-all duration-700  scale-50';
     setTimeout(() => {
         localStorage.setItem("name", name.value);
+        scrollToTop()
         emits('startClicked');
     }, 270);
 };
-// onMounted(() => {
-//     if (localStorage.getItem("yourQuizId")) {
-//         router.push({ name: 'quizes.copy' })
-//     }
-// });
+const scrollToTop = () => {
+    const scrollContainer = document.getElementById('home');
+    if (scrollContainer) {
+        scrollContainer.scrollTop = 0;
+    }
+}
+
 </script>

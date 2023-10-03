@@ -25,10 +25,10 @@
             </div>
             <div class="bg-gray-900 rounded-b-3xl p-6 space-y-2 text-right">
                <div v-for="(answer, ansIndex) in Quizzes.questions[currentQuestionIndex].answers" :key="ansIndex" :class="{
-                  'px-5 border-[3.5px] border-gray-500 text-gray-200 sm:hover:border-blue-400 rounded-3xl py-1.5 ': !showAnswerFeedback,
-                  'px-5 border-[3.5px] rounded-3xl py-1.5 border-gray-500 flex justify-end items-center text-right': showAnswerFeedback,
-                  'border-green-500 ': showAnswerFeedback && isCorrectAnswer(ansIndex),
-                  'border-red-500': showAnswerFeedback && isIncorrectAnswer(ansIndex),
+                  'px-8 border-[3.5px] border-gray-500 text-gray-200 sm:hover:border-blue-400 rounded-3xl py-1.5': !showAnswerFeedback,
+                  'px-3 border-[3.5px] rounded-3xl py-1.5 border-green-500': showAnswerFeedback && isCorrectAnswer(ansIndex),
+                  'px-3 border-[3.5px] rounded-3xl py-1.5 border-red-500': showAnswerFeedback && isIncorrectAnswer(ansIndex),
+                  'px-8 border-[3.5px] rounded-3xl py-1.5 border-gray-500': !showAnswerFeedback || (showAnswerFeedback && selectedAnswerIndex !== ansIndex),
                }" @click="selectAnswer(ansIndex)">
                   <i v-if="showAnswerFeedback && isCorrectAnswer(ansIndex)"
                      class="fa-solid fa-circle-check text-green-500"></i>
@@ -52,6 +52,8 @@ const quizzesCollection = collection(db, 'Quizzes');
 const quizId = route.params.id;
 const Quizzes = ref({});
 const currentQuestionIndex = ref(0);
+const selectedAnswerIndex = ref(null);
+const name = localStorage.getItem('name')
 const userAnswers = ref([]);
 const showAnswerFeedback = ref(false);
 const totalCorrectAnswers = ref(0);
@@ -63,7 +65,7 @@ onMounted(async () => {
          Quizzes.value = doc.data();
          userAnswers.value = new Array(Quizzes.value.questions.length).fill(null);
       } else {
-         router.push({name:'notFound'})
+         router.push({ name: 'notFound' })
       }
    });
 });
@@ -101,6 +103,7 @@ const currentQuestionColor = computed(() => {
 const selectAnswer = (ansIndex) => {
    if (!showAnswerFeedback.value) {
       userAnswers.value[currentQuestionIndex.value] = ansIndex;
+      selectedAnswerIndex.value = ansIndex;
       showAnswerFeedback.value = true;
       if (ansIndex === Quizzes.value.questions[currentQuestionIndex.value].correctAnswer) {
          totalCorrectAnswers.value += 1;
@@ -109,13 +112,13 @@ const selectAnswer = (ansIndex) => {
          if (currentQuestionIndex.value < (Quizzes.value.questions ? Quizzes.value.questions.length : 0) - 1) {
             currentQuestionIndex.value += 1;
             showAnswerFeedback.value = false;
+            selectedAnswerIndex.value = null;
          } else {
             showResults();
          }
       }, 2000);
    }
 };
-
 const startAnimation = ref("")
 const start = () => {
    startAnimation.value = 'transition-all duration-700  scale-50';
@@ -123,9 +126,7 @@ const start = () => {
       emits('beforeExistsId')
    }, 270);
 };
-
 const showResults = async () => {
-   console.log('Quiz completed! Total Correct Answers: ', totalCorrectAnswers.value);
    localStorage.setItem(quizId, totalCorrectAnswers.value);
    try {
       const docRef = doc(quizzesCollection, quizId);
@@ -150,6 +151,7 @@ const showResults = async () => {
          });
          start()
       } else {
+
          await setDoc(docRef, {
             results: [
                {
@@ -161,7 +163,7 @@ const showResults = async () => {
          start()
       }
    } catch (error) {
-      console.error('Error updating/adding document: ', error);
+      router.push({ name: 'notFound' })
    }
 };
 </script>

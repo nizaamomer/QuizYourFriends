@@ -1,7 +1,7 @@
 <template>
     <div dir="rtl"
         class=" mx-auto relative  flex flex-col bg-zinc-950 h-screen w-screen justify-center  items-stretch text-center  font-ckb  bg-transparent border border-transparent text-gray-100  px-4 md:px-8 text-lg font-semibold">
-        <div class="space-y-16 w-full -mt-16">
+        <div class="space-y-16 w-full -mt-24">
             <div>
                 <h1 class="text-center text-2xl  text-gray-500 my-3">بەتەمای کوێ بووی دڵە؟</h1>
                 <img src="../assets/images/hm.jpg" alt="hmm image" class="mx-auto  w-56 rounded-xl mb-10">

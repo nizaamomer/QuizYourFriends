@@ -25,7 +25,7 @@
 </template>
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Icons from "@/components/Icons.vue"
 import Results from "@/components/Results.vue"
 import Guide from "@/components/Guide.vue"
@@ -33,31 +33,29 @@ import db from '@/firebase';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
 const friends = ref([]);
 const route = useRoute();
+const router = useRouter();
 const totalCorrectAnswers = ref(0);
 const quizId = route.params.id;
 const name = ref(localStorage.getItem("name"));
 const creatorName = ref("")
+const quizzesCollection = collection(db, "Quizzes");
 onMounted(() => {
     const storedAnswers = localStorage.getItem(quizId);
     if (storedAnswers !== null) {
         totalCorrectAnswers.value = parseInt(storedAnswers, 10);
+        const docRef = doc(quizzesCollection, quizId);
+        onSnapshot(docRef, (doc) => {
+            if (doc.exists()) {
+                creatorName.value = doc.data().creatorName;
+                friends.value = doc.data().results;
+            } else {
+                router.push({ name: 'notFound' })
+            }
+        });
     } else {
-        console.log(`No data found for Quiz ${quizId}`);
+        router.push({ name:'notFound' })
     }
 });
-const quizzesCollection = collection(db, "Quizzes");
-onMounted(async () => {
-    const docRef = doc(quizzesCollection, quizId);
-    onSnapshot(docRef, (doc) => {
-        if (doc.exists()) {
 
-            creatorName.value = doc.data().creatorName;
-            friends.value = doc.data().results;
-        } else {
-            console.log('Document does not exist.');
-            //bro bo 404
-        }
-    });
-});
 </script>
   

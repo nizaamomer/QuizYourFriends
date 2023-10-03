@@ -1,5 +1,5 @@
 <template>
-    <div class=" mx-auto flex flex-col  justify-center  items-stretch text-center max-w-2xl my-24   px-4 md:px-10 text-lg"
+    <div class=" mx-auto flex flex-col  justify-center h-screen items-stretch text-center max-w-2xl   px-4 md:px-10 text-lg"
         :class="startAnimation">
         <div class="space-y-3 ">
             <h1 class="text-center text-3xl md:text-3xl text-indigo-500"> سڵاو چۆنیت؟</h1>
@@ -26,14 +26,15 @@ import Icons from "@/components/Icons.vue"
 import Input from "@/components/Input.vue"
 import Button from "@/components/Button.vue"
 import { ref, onMounted } from "vue";
-import { useRoute ,useRouter} from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import db from '@/firebase';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
 const route = useRoute();
 const router = useRouter();
 const name = ref(localStorage.getItem('name') || "");
 const emits = defineEmits();
-const {startAnimation, creatorName}= ref("");
+const startAnimation = ref("");
+const creatorName = ref("");
 const quizzesCollection = collection(db, 'Quizzes');
 const quizId = route.params.id;
 const start = () => {
@@ -49,7 +50,7 @@ onMounted(async () => {
         if (doc.exists()) {
             creatorName.value = doc.data().creatorName;
         } else {
-            router.push({name:'notFound'})
+            router.push({ name: 'notFound' })
         }
     });
 });

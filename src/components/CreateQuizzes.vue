@@ -14,8 +14,8 @@
       </button>
    </div>
    <div
-      class="w-full mx-auto relative flex flex-col justify-center items-stretch max-w-2xl my-8 text-gray-100 px-3 md:px-8 text-lg font-semibold space-y-12 space-y-reverse">
-
+     id="home" class="w-full mx-auto relative flex flex-col justify-center items-stretch max-w-2xl my-8 text-gray-100 px-3 md:px-8 text-lg font-semibold space-y-12 space-y-reverse"
+      :class="startAnimation" >
       <div class="bg-bgray rounded-2xl text-center space-y-10 py-6 text-gray-300 mb-12">
          <h1 class="text-indigo-400 text-2xl mb-5"> پرسیارەکانت دروست بکە </h1>
          <h1 class="text-gray-400 text-lg md:text-xl">
@@ -72,22 +72,13 @@
    </div>
 </template>
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, watch ,onMounted} from 'vue';
 import { useRouter } from "vue-router"
 import db from "@/firebase"
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import Icons from "@/components/Icons.vue";
 const router = useRouter()
 const name = localStorage.getItem("name")
-// onMounted(() => {
-//    if (!localStorage.getItem("name")) {
-//       router.push({ name: 'welcome' })
-//    }
-//    if (localStorage.getItem("yourQuizId") && localStorage.getItem("name")) {
-//       router.push({ name: 'quizes.copy' })
-//    }
-// })
-
 const quizzes = ref({
    creatorName: localStorage.getItem('name'),
    date: Date.now(),
@@ -112,28 +103,28 @@ const quizzes = ref({
          correctAnswer: null,
          color: 'rgb(99, 102, 241)'
       },
-      // {
-      //    text: "🎬 فیلمی پەسندیدەوەی بچیچیک؟",
-      //    answers: [
-      //       { text: 'Avengers: Endgame' },
-      //       { text: 'It: Chapter Two' },
-      //       { text: 'Toy Story 4' },
-      //       { text: 'Spider-Man: Far From Home' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(249, 115, 22)'
-      // },
-      // {
-      //    text: "👪 چند زمان بچی بەیە؟",
-      //    answers: [
-      //       { text: '10' },
-      //       { text: '3' },
-      //       { text: '2' },
-      //       { text: '1' },
-      //    ],
-      //    correctAnswer: null,
-      //    color: 'rgb(236, 72, 153)'
-      // },
+      {
+         text: "🎬 فیلمی پەسندیدەوەی بچیچیک؟",
+         answers: [
+            { text: 'Avengers: Endgame' },
+            { text: 'It: Chapter Two' },
+            { text: 'Toy Story 4' },
+            { text: 'Spider-Man: Far From Home' },
+         ],
+         correctAnswer: null,
+         color: 'rgb(249, 115, 22)'
+      },
+      {
+         text: "👪 چند زمان بچی بەیە؟",
+         answers: [
+            { text: '10' },
+            { text: '3' },
+            { text: '2' },
+            { text: '1' },
+         ],
+         correctAnswer: null,
+         color: 'rgb(236, 72, 153)'
+      },
       // {
       //    text: "ئەگەر بەرەوپێشتر هەموو رووکاری ڕاتیش بڕۆ بخرێت، چی دەخواتەوە؟",
       //    answers: [
@@ -217,7 +208,8 @@ const colorOptions = [
    'rgb(31, 41, 55)',
    'rgb(239, 68, 68)',
 ];
-
+const startAnimation = ref("")
+const emits = defineEmits();
 // const quizzes = ref({
 //    creatorName: localStorage.getItem('name'),
 //    date: Date.now(),
@@ -367,18 +359,28 @@ const saveChanges = async () => {
    }
 
    if (!hasErrors) {
-      // No errors, proceed to save to Firebase
       try {
          const quizData = JSON.parse(JSON.stringify(quizzes.value));
-         const docRef = await addDoc(quizzesCollection, quizData);
-         const quizId = docRef.id;
-         localStorage.setItem("yourQuizId", quizId);
-         // router.push({ name: 'quizes.copy' });
+         setTimeout(async () => {
+            startAnimation.value = 'transition-all duration-700  scale-0';
+            const docRef = await addDoc(quizzesCollection, quizData);
+            const quizId = docRef.id;
+            localStorage.setItem("myQuizId", quizId);
+            scrollToTop()
+            emits('haveQuistion');
+         }, 350);
       } catch (error) {
-         console.error("Error adding document: ", error);
+         router.push({ name: 'notFound' });
       }
    }
 };
+const scrollToTop = () => {
+    const scrollContainer = document.getElementById('home');
+    if (scrollContainer) {
+        scrollContainer.scrollTop = 0;
+    }
+}
+
 const addAnswer = (questionIndex) => {
    quizzes.value.questions[questionIndex].answers.push({ text: `شتێک بنووسە ${name} گیان` });
 };
@@ -388,7 +390,6 @@ const deleteAnswer = (questionIndex, answerIndex) => {
       question.answers.splice(answerIndex, 1);
    }
 };
-
 watch(error, (newValue) => {
    if (newValue) {
       setTimeout(() => {
@@ -396,21 +397,8 @@ watch(error, (newValue) => {
       }, 3000);
    }
 });
-
 const setQuestionColor = (questionIndex, color) => {
    quizzes.value.questions[questionIndex].color = color;
 };
-
-// const addQuestion = () => {
-//    quizzes.value.questions.push({
-//       text: '',
-//       answers: [{ text: '' }],
-//       correctAnswer: null,
-//       color: '', // Add a default color
-//    });
-// };
-// const deleteQuestion = (questionIndex) => {
-//    quizzes.value.questions.splice(questionIndex, 1);
-// };
 </script>
  

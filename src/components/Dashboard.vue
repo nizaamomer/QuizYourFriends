@@ -1,5 +1,5 @@
 <template>
-   <div class="bg-zinc-950  flex flex-col py-10 justify-center items-center  text-white" dir="rtl">
+   <div id="home" class=" flex flex-col py-10 justify-center items-center  text-white" :class="startAnimation" >
       <div v-if="copyed" id="toast-danger"
          class="absolute top-0 text-center font-ckb text-gray-400  sm:left-20 sm:right-10 sm:top-14  flex z-50 items-center w-full sm:max-w-xs p-6 mb-4  sm:rounded-lg shadow  bg-indigo-800"
          role="alert">
@@ -25,8 +25,7 @@
             <button class="py-3 mb-2 bg-indigo-700 text-green-400 rounded-full font-bold w-full " v-else>کۆپی کرا</button>
          </div>
          <Icons dir="ltr" />
-        
-         <Results :friends="friends" :title="`باشترین هاوڕێکانت`"/>
+         <Results :friends="friends" :title="`باشترین هاوڕێکانت`" />
          <Icons />
          <div class="bg-bgray rounded-2xl p-8  text-center space-y-10 py-8 text-gray-300 ">
             <div><i class="fa-solid fa-bell text-yellow-500 text-5xl"></i></div>
@@ -35,8 +34,6 @@
             <button @click="deleteQuiz" class="py-3 mb-2 bg-red-700 rounded-full font-bold w-full "> سڕینەوە
             </button>
          </div>
-      
-  
       </div>
    </div>
 </template>
@@ -50,33 +47,32 @@ import Results from "@/components/Results.vue"
 const router = useRouter()
 const route = useRoute()
 const quizzesCollection = collection(db, "Quizzes");
-const myQuizId = localStorage.getItem("yourQuizId")
+const myQuizId = localStorage.getItem("myQuizId")
 const name = localStorage.getItem("name");
 const url = new URL(window.location.href);
 const myDomain = url.hostname;
 const link = ref(myDomain + "/" + myQuizId)
 const copyed = ref(false)
 const copyToClipboard = () => {
-  const textArea = document.createElement('textarea');
-  textArea.value = link.value;
-  document.body.appendChild(textArea);
-  copyed.value = true
-  textArea.select();
-  document.execCommand('copy');
-  document.body.removeChild(textArea);
+   const textArea = document.createElement('textarea');
+   textArea.value = link.value;
+   document.body.appendChild(textArea);
+   copyed.value = true
+   textArea.select();
+   document.execCommand('copy');
+   document.body.removeChild(textArea);
 };
 
-  const friends = ref([]);
+const friends = ref([]);
 onMounted(async () => {
-    const docRef = doc(quizzesCollection, myQuizId);
-    onSnapshot(docRef, (doc) => {
-        if (doc.exists()) {
-            friends.value = doc.data().results;
-        } else {
-            console.log('Document does not exist.');
-            //bro bo 404
-        }
-    });
+   const docRef = doc(quizzesCollection, myQuizId);
+   onSnapshot(docRef, (doc) => {
+      if (doc.exists()) {
+         friends.value = doc.data().results;
+      } else {
+         router.push({ name: 'home' })
+      }
+   });
 });
 watch(copyed, (newValue) => {
    if (newValue) {
@@ -86,13 +82,27 @@ watch(copyed, (newValue) => {
    }
 });
 const docQuizzes = doc(quizzesCollection, myQuizId);
+const startAnimation = ref("")
+const emits = defineEmits();
 const deleteQuiz = async () => {
    try {
       await deleteDoc(docQuizzes);
-      localStorage.removeItem('yourQuizId');
+      setTimeout(() => {
+         startAnimation.value = 'transition-all duration-700  scale-50';
+         localStorage.removeItem('myQuizId');
+         emits('haveQuistion');
+         scrollToTop()
+         router.push({name:'home'})
+      }, 270);
    } catch (error) {
       console.error("Error deleting document: ", error);
    }
+}
+const scrollToTop = () => {
+    const scrollContainer = document.getElementById('home');
+    if (scrollContainer) {
+        scrollContainer.scrollTop = 0;
+    }
 }
 </script>
  
