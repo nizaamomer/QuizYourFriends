@@ -54,16 +54,16 @@
                   class="pt-0.5 text-lg items-start border-[2.8px] border-zinc-700 rounded-2xl w-full px-4 h-[70px] text-right resize-none outline-none focus:outline-none focus:border-blue-800 hover:border-blue-800 whitespace-pre-wrap focus:bg-black"></textarea>
                <button class="inline-block relative p-0 border-0 bg-transparent"
                   @click="deleteAnswer(questionIndex, answerIndex)" :disabled="question.answers.length <= 2">
-                  <i class="fa-solid fa-circle-xmark w-6 h-6 text-2xl leading-5 text-rose-700 bg-white rounded-full"></i>
+                  <i class="fa-solid fa-circle-xmark w-5 h-5 text-2xl leading-5 text-rose-700 bg-white rounded-full"></i>
                </button>
             </div>
          </div>
          <button @click="addAnswer(questionIndex)"
             class="bg-zinc-700 rounded-2xl px-4 py-1.5 font-bold text-base my-5">بژاردەیەک زیاد بکە</button>
          <div class="flex justify-center items-center space-x-1 rtl:space-x-reverse mb-2">
-            <button v-for="color in colorOptions" :key="color" @click="setQuestionColor(questionIndex, color)" >
+            <button v-for="color in colorOptions" :key="color" @click="setQuestionColor(questionIndex, color)">
                <i v-if="question.color === color" :style="{ color: question.color }"
-                  class="text-red-500 rounded-full  outline-none text-2xl fas fa-circle-check "></i>
+                  class=" rounded-full border-none outline-none text-indigo-400  text-2xl fas fa-circle-check "></i>
                <i v-else :style="{ backgroundColor: color }"
                   class=" rounded-full border-none outline-none text-transparent  text-2xl far fa-circle "></i>
             </button>
