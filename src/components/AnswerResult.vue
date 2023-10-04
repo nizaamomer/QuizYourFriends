@@ -20,6 +20,8 @@
         </div>
         <Guide />
         <Icons />
+        <FriendQuotes />
+        <Remember />
         <Results :friends="friends" :title="`باشترین هاوڕێکانی ${creatorName}`" />
     </div>
 </template>
@@ -29,6 +31,8 @@ import { useRoute, useRouter } from "vue-router";
 import Icons from "@/components/Icons.vue"
 import Results from "@/components/Results.vue"
 import Guide from "@/components/Guide.vue"
+import FriendQuotes from "@/components/FriendQuotes.vue"
+import Remember from "@/components/Remember.vue"
 import db from '@/firebase';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
 const friends = ref([]);
@@ -53,7 +57,7 @@ onMounted(() => {
             }
         });
     } else {
-        router.push({ name:'notFound' })
+        router.push({ name: 'notFound' })
     }
 });
 

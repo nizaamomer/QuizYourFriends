@@ -60,7 +60,7 @@
          </div>
          <button @click="addAnswer(questionIndex)"
             class="bg-zinc-700 rounded-2xl px-4 py-1.5 font-bold text-base my-5">بژاردەیەک زیاد بکە</button>
-         <div class="flex justify-center items-center space-x-1 rtl:space-x-reverse mb-2">
+         <div class="flex justify-center items-center space-x-1 rtl:space-x-reverse mb-3">
             <button v-for="color in colorOptions" :key="color" @click="setQuestionColor(questionIndex, color)">
                <i v-if="question.color === color" :style="{ color: question.color }"
                   class="  rounded-full w-6 h-6 text-2xl leading-5 text-transparent fas fa-circle-check "></i>

@@ -1,8 +1,8 @@
 <template>
     <div id="home"
-        class="w-full mx-auto relative flex flex-col  justify-center my-4  items-stretch text-center max-w-2xl font-ckb  bg-transparent border border-transparent text-gray-100 rounded-3xl px-4 md:px-8 text-lg font-semibold"
+        class="w-full mx-auto relative flex flex-col  justify-center my-5  items-stretch text-center max-w-2xl font-ckb  bg-transparent border border-transparent text-gray-100 rounded-3xl px-4 md:px-8 text-lg font-semibold"
         :class="startAnimation">
-        <div class="space-y-6 ">
+        <div class="space-y-4 ">
             <h1 class="text-center text-3xl md:text-3xl text-indigo-500">بەخێربێی گیان</h1>
             <p class="text-2xl md:text-2xl text-gray-300 hyphens-auto">هەرگیز بیرت لەوە کردۆتەوە هاوڕێکانت تاچەنێک ئەتناسن؟
             </p>
@@ -12,8 +12,17 @@
             <Input v-model="name" />
             <Button :start="start" :name="name" />
             <br><br>
-            <br><br>
+            <br>
             <Icons />
+            <br>
+
+         
+            <Remember />
+            <br>
+            <Icons dir="ltr" />
+            <br>
+            <FriendQuotes />
+            <br>
         </div>
     </div>
 </template>
@@ -22,8 +31,10 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import Guide from "@/components/Guide.vue"
 import Input from "@/components/Input.vue"
+import Remember from "@/components/Remember.vue"
 import Button from "@/components/Button.vue"
 import Icons from "@/components/Icons.vue"
+import FriendQuotes from "@/components/FriendQuotes.vue"
 const router = useRouter();
 const name = ref(localStorage.getItem('name') || "");
 const emits = defineEmits();

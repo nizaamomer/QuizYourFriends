@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p class="text-indigo-600 hover:text-indigo-700">#{{ visitorCount }} <i
+        <p class="text-indigo-600 hover:text-indigo-700"> {{ visitorCount }} <i
                 class="fa-solid fa-eye text-xs text-gray-500 hover:text-indigo-700"></i></p>
     </div>
 </template>

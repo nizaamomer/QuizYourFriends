@@ -1,5 +1,5 @@
 <template>
-   <div id="home" class=" flex flex-col py-10 justify-center items-center  text-white" :class="startAnimation" >
+   <div id="home" class=" flex flex-col py-10 justify-center items-center  text-white" :class="startAnimation">
       <div v-if="copyed" id="toast-danger"
          class="absolute top-0 text-center font-ckb text-gray-400  sm:left-20 sm:right-10 sm:top-14  flex z-50 items-center w-full sm:max-w-xs p-6 mb-4  sm:rounded-lg shadow  bg-indigo-800"
          role="alert">
@@ -26,7 +26,9 @@
          </div>
          <Icons dir="ltr" />
          <Results :friends="friends" :title="`باشترین هاوڕێکانت`" />
+         <Remember />
          <Icons />
+         <FriendQuotes />
          <div class="bg-bgray rounded-2xl p-8  text-center space-y-10 py-8 text-gray-300 ">
             <div><i class="fa-solid fa-bell text-yellow-500 text-5xl"></i></div>
             <p class="text-gray-400 sm:text-2xl">بۆ ئەوەی بتوانیت پرسیاری دیکە دروست بکەی دەبێت ئەم پرسیارانە بسڕیەوە ...
@@ -42,6 +44,8 @@ import { ref, onMounted, watch } from 'vue';
 import db from "@/firebase"
 import { useRouter, useRoute } from "vue-router"
 import { collection, doc, onSnapshot, deleteDoc } from "firebase/firestore";
+import FriendQuotes from "@/components/FriendQuotes.vue"
+import Remember from "@/components/Remember.vue"
 import Icons from "@/components/Icons.vue";
 import Results from "@/components/Results.vue"
 const router = useRouter()
@@ -92,17 +96,17 @@ const deleteQuiz = async () => {
          localStorage.removeItem('myQuizId');
          emits('haveQuistion');
          scrollToTop()
-         router.push({name:'home'})
+         router.push({ name: 'home' })
       }, 270);
    } catch (error) {
       console.error("Error deleting document: ", error);
    }
 }
 const scrollToTop = () => {
-    const scrollContainer = document.getElementById('home');
-    if (scrollContainer) {
-        scrollContainer.scrollTop = 0;
-    }
+   const scrollContainer = document.getElementById('home');
+   if (scrollContainer) {
+      scrollContainer.scrollTop = 0;
+   }
 }
 </script>
  
