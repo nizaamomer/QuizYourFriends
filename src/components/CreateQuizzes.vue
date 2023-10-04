@@ -60,16 +60,14 @@
          </div>
          <button @click="addAnswer(questionIndex)"
             class="bg-zinc-700 rounded-2xl px-4 py-1.5 font-bold text-base my-5">بژاردەیەک زیاد بکە</button>
-         <div class="flex justify-center items-center space-x-1 rtl:space-x-reverse">
-            <button v-for="color in colorOptions" :key="color" @click="setQuestionColor(questionIndex, color)">
+         <div class="flex justify-center items-center space-x-1 rtl:space-x-reverse mb-2">
+            <button v-for="color in colorOptions" :key="color" @click="setQuestionColor(questionIndex, color)" >
                <i v-if="question.color === color" :style="{ color: question.color }"
-                  class="border-none  bg-white rounded-full  outline-none text-2xl fas fa-circle-check "
-                  style="border-radius: 80%;"></i>
+                  class="text-red-500 rounded-full  outline-none text-2xl fas fa-circle-check "></i>
                <i v-else :style="{ backgroundColor: color }"
                   class=" rounded-full border-none outline-none text-transparent  text-2xl far fa-circle "></i>
             </button>
          </div>
-         <br>
       </div>
       <button @click.prevent="saveChanges"
          class="py-3 mb-2 bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 rounded-full font-bold w-full ">سەیڤیکە
