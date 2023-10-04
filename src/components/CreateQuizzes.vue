@@ -69,11 +69,14 @@
             </button>
          </div>
       </div>
+      <div class="space-y-3"> 
+      <p class="text-indigo-400 text-base">لە بیرت بێ! &nbsp; دەتوانی دەستکاری پرسیارەکان بکەی</p>
       <button @click.prevent="saveChanges"
          class="py-3 mb-2 bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 rounded-full font-bold w-full ">سەیڤیکە
          {{
             name }} گیان</button>
 
+      </div>
    </div>
 </template>
 <script setup>
@@ -84,6 +87,10 @@ import { collection, addDoc } from "firebase/firestore";
 import Icons from "@/components/Icons.vue";
 const router = useRouter()
 const name = localStorage.getItem("name")
+const startAnimation = ref("")
+const emits = defineEmits();
+const quizzesCollection = collection(db, "Quizzes");
+const error = ref("");
 const colorOptions = [
    'rgb(244, 63, 94)',
    'rgb(99, 102, 241)',
@@ -96,7 +103,6 @@ const colorOptions = [
    'rgb(31, 41, 55)',
    'rgb(239, 68, 68)',
 ];
-
 const quizzes = ref({
    creatorName: localStorage.getItem('name'),
    date: Date.now(),
@@ -130,7 +136,7 @@ const quizzes = ref({
             { text: 'Interstellar 🚀' },
             { text: 'Toy Story 4' },
             { text: 'Spider-Man: Far From Home' },
-            { text: '' },
+            { text: 'La la land' },
          ],
          correctAnswer: null,
          color: colorOptions[2],
@@ -181,13 +187,13 @@ const quizzes = ref({
          color: colorOptions[6],
       },
       {
-         text: `📺 What is ${name}'s favorite TV show?`,
+         text: `ڕۆژی لەدایکبووونی ${name} کەیە؟`,
          answers: [
-            { text: 'The Office' },
-            { text: 'Lost' },
-            { text: 'Breaking Bad' },
-            { text: 'Friends' },
-            { text: 'Game of Thrones' },
+            { text: '1/8' },
+            { text: '23/7' },
+            { text: '15/3' },
+            { text: '30/12' },
+            { text: 'هەر 1/7 نیە 🦦' },
          ],
          correctAnswer: null,
          color: colorOptions[7],
@@ -199,18 +205,18 @@ const quizzes = ref({
             { text: 'هاوایی' },
             { text: 'کەنەدا' },
             { text: 'پاریس' },
-            { text: 'شارەزوور' },
+            { text: 'شارەزوورە حەیاتەکە' },
          ],
          correctAnswer: null,
          color: colorOptions[8],
       },
       {
-         text: `${name} هەرگیز هەرگیز...`,
+         text: `کێ لە هەمووتان ئاقڵترە 🙂`,
          answers: [
-            { text: '😷 دڵی کەس ناشکێنێت' },
-            { text: '🚽 Dropped their cellphone in the toilet' },
-            { text: '😴 Stayed up for more than 24 hours' },
-            { text: '🍕 Ate a whole pizza by themselves' },
+            { text: `${name}` },
+            { text: `${name}` },
+            { text: `هەر ${name}` },
+            { text: 'نازە' },
          ],
          correctAnswer: null,
          color: colorOptions[9],
@@ -218,15 +224,8 @@ const quizzes = ref({
    ],
 });
 
-const startAnimation = ref("")
-const emits = defineEmits();
-
-// Assuming you have initialized your Firebase Firestore instance as 'db'
-const quizzesCollection = collection(db, "Quizzes");
-const error = ref("");
 const saveChanges = async () => {
-   let hasErrors = false; // Track if there are any errors
-
+   let hasErrors = false;
    for (const [questionIndex, question] of quizzes.value.questions.entries()) {
       if (question.text.trim().length === 0) {
          // error.value = `Question ${questionIndex + 1} text is empty.`;

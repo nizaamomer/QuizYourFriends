@@ -15,15 +15,20 @@
             <br>
             <Icons />
             <br>
-
-         
             <Remember />
             <br>
             <Icons dir="ltr" />
             <br>
             <FriendQuotes />
             <br>
+            <div class="bg-bgray rounded-2xl py-5">
+                <h1 class="sm:text-xl text-base text-indigo-500 leading-loose">`هاوڕێ کەسێکە کە هەموو شتێک لەبارەی تۆوە دەزانێت
+                    و <br> هێشتا
+                    خۆشی
+                    دەوێیـت` <span class="text-gray-500 text-lg">&nbsp;&nbsp; - &nbsp;&nbsp;Elbert Hubbard</span></h1>
+            </div>
         </div>
+        <br>
     </div>
 </template>
 <script setup>

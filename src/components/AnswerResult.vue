@@ -14,15 +14,22 @@
             <h1 class="text-gray-300 text-2xl md:text-3xl">پرسیارەکانت دروست بکە</h1>
             <p class="text-gray-400 text-xl md:text-2xl">ئێستا نۆرەی تۆیە.. &nbsp;&nbsp; پرسیارەکانت دروست بکەو بینێرە بۆ
                 هاوڕێکانت</p>
-            <button @click.prevent="saveChanges"
-                class="py-3 mb-2 bg-indigo-700 rounded-full text-gray-300 font-bold w-3/5 ">با دەست پێبکەین {{ name }}
-                گیان</button>
         </div>
-        <Guide />
+        <router-link :to="{ name: 'home' }"
+            class="py-3  bg-indigo-700 rounded-full cursor-pointer text-gray-300 font-bold w-10/12 sm:w-3/5  px-4 mx-auto">با
+            دەست پێبکەین {{ name }}
+            گیان</router-link>
+        <router-link :to="{ name: 'home' }" class="opacity-0 w-0 h-0 invisible"></router-link>
+        <Guide class="-mt-20" />
         <Icons />
-        <FriendQuotes />
         <Remember />
         <Results :friends="friends" :title="`باشترین هاوڕێکانی ${creatorName}`" />
+        <div class="bg-bgray rounded-2xl py-8 px-2">
+            <h1 class="sm:text-xl text-base text-indigo-500 leading-loose">`هاوڕێی ڕاستەقینە وەک ئەڵماس وان- گەشاوە، جوان،
+                بەنرخ
+                و هەمیشە لەگەڵت دمێنێتەوە` <span class="text-gray-500 text-lg">&nbsp;&nbsp; - &nbsp;&nbsp;Nicole
+                    Richie</span></h1>
+        </div>
     </div>
 </template>
 <script setup>
@@ -31,7 +38,6 @@ import { useRoute, useRouter } from "vue-router";
 import Icons from "@/components/Icons.vue"
 import Results from "@/components/Results.vue"
 import Guide from "@/components/Guide.vue"
-import FriendQuotes from "@/components/FriendQuotes.vue"
 import Remember from "@/components/Remember.vue"
 import db from '@/firebase';
 import { collection, doc, onSnapshot } from 'firebase/firestore';
@@ -60,6 +66,4 @@ onMounted(() => {
         router.push({ name: 'notFound' })
     }
 });
-
 </script>
-  

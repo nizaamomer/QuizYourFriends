@@ -6,14 +6,14 @@
          <div class="ml-3 text-sm font-normal ">بە سەرکەووتووی کۆپی کرا...</div>
       </div>
       <div
-         class="w-full mx-auto space-y-20   max-w-xl font-ckb  bg-transparent border border-transparent text-gray-100 rounded-3xl  px-4 md:px-8 text-lg font-semibold ">
+         class="w-full mx-auto space-y-16   max-w-xl font-ckb  bg-transparent border border-transparent text-gray-100 rounded-3xl  px-4 md:px-8 text-lg font-semibold ">
          <div class="bg-bgray rounded-2xl p-8 text-center space-y-10 py-6 text-gray-300">
-            <h1 class="text-indigo-400 text-2xl mb-5">پیرۆزە پرسیارەکانت ئامادەیە {{ name }} گیان </h1>
-            <h1 class="text-2xl leading-loose text-gray-400">
+            <h1 class="text-indigo-400 text-2xl mb-3">پیرۆزە پرسیارەکانت ئامادەیە 🎈 <br>{{ name }} گیان </h1>
+            <h1 class="text-xl leading-loose text-gray-400">
                لینکەکە بنێرە بۆ هاوڕێکانت و تاقیانکەرە تا چەنێ ئەتناسن 👀
             </h1>
             <div dir="ltr"
-               class="py-2 mb-2 bg-gray-950 rounded-2xl font-bold w-full whitespace-break-spaces flex flex-wrap sm:flex-row items-center justify-center">
+               class="py-2 mb-1 bg-gray-950 rounded-2xl font-bold w-full whitespace-break-spaces flex flex-wrap sm:flex-row items-center justify-center">
                <span class="text-gray-400 text-base font-normal sm:mb-0">https://</span>
                <span class="text-white text-xl sm:mb-0">{{ myDomain }}/</span>
                <span class="text-yellow-500 text-lg">{{ myQuizId }}</span>
@@ -29,13 +29,18 @@
          <Remember />
          <Icons />
          <FriendQuotes />
-         <div class="bg-bgray rounded-2xl p-8  text-center space-y-10 py-8 text-gray-300 ">
+         <div class="bg-bgray rounded-2xl p-8  text-center space-y-8 py-8 text-gray-300 ">
             <div><i class="fa-solid fa-bell text-yellow-500 text-5xl"></i></div>
             <p class="text-gray-400 sm:text-2xl">بۆ ئەوەی بتوانیت پرسیاری دیکە دروست بکەی دەبێت ئەم پرسیارانە بسڕیەوە ...
             </p>
             <button @click="deleteQuiz" class="py-3 mb-2 bg-red-700 rounded-full font-bold w-full "> سڕینەوە
             </button>
          </div>
+         <div class="bg-bgray rounded-2xl py-5 px-3 ">
+            <h1 class="sm:text-xl text-base text-indigo-500 leading-loose">`هاوڕێی ڕاستەقینە وەک ئەڵماس وان- گەشاوە، جوان، بەنرخ
+                و هەمیشە لەگەڵت دمێنێتەوە` <span class="text-gray-500 text-lg">&nbsp;&nbsp; - &nbsp;&nbsp;Nicole
+                    Richie</span></h1>
+        </div>
       </div>
    </div>
 </template>
