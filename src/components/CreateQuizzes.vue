@@ -63,9 +63,9 @@
          <div class="flex justify-center items-center space-x-1 rtl:space-x-reverse mb-2">
             <button v-for="color in colorOptions" :key="color" @click="setQuestionColor(questionIndex, color)">
                <i v-if="question.color === color" :style="{ color: question.color }"
-                  class=" rounded-full border-none outline-none text-indigo-400  text-2xl fas fa-circle-check "></i>
+                  class="  rounded-full w-6 h-6 text-2xl leading-5 text-transparent fas fa-circle-check "></i>
                <i v-else :style="{ backgroundColor: color }"
-                  class=" rounded-full border-none outline-none text-transparent  text-2xl far fa-circle "></i>
+                  class=" bg-white rounded-full w-6 h-6 text-2xl leading-5 text-transparent far fa-circle "></i>
             </button>
          </div>
       </div>
