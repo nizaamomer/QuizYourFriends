@@ -10,7 +10,7 @@
             </div>
         </div>
         <div v-for="friend in friends" :key="friend.id"
-            class="flex justify-between items-center border-b border-gray-400 bg-zinc-900 rounded">
+            class="flex justify-between items-center border-b border-dotted border-gray-400 bg-zinc-900 rounded">
             <div class="px-8 py-3 text-yellow-500">
                 {{ friend.correctResult }}<span class="text-gray-400">/10</span>
             </div>

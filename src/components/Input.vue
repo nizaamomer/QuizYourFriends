@@ -16,15 +16,14 @@ const emit = defineEmits(['update:modelValue']);
 const error = ref('');
 const updateValue = (event) => {
     let name = event.target.value;
-    const kurdishCentralRegex = /^[ئابپتجچحخدذرزژسشعغفقەکگلمنهوۆی]/i;
+    const kurdishCentralRegex = /^[ئابپتجچحخدرڕزژسشعغفقڤەکگلڵمنێهوۆی]/i;
     if (!kurdishCentralRegex.test(name)) {
-        name = name.replace(/[^ئابپتجچحخدذرزژسشعغفقکگلمەنهوۆی]/ig, '');
+        name = name.replace(/[^ئابپتجچحخدرڕزژسشعغفقڤکگلڵمەنێهوۆی]/ig, '');
         error.value = 'تەنها پیتە کوردیەکان ڕێگە پێدراوە :)';
     } else {
         error.value = '';
     }
     emit('update:modelValue', name);
 };
-
 </script>
   

@@ -31,27 +31,30 @@
             }}
          </div>
          <div class="rounded-t-3xl p-4 text-xl bg-bgray relative">
-            <textarea v-model.trim="question.text" maxlength="150"
+            <textarea v-model.trim="question.text" maxlength="100"
                class="bg-transparent text2xl pt-3 border-[2.8px] text-right resize-none outline-none focus:outline-none focus:border-blue-800 hover:border-blue-800 focus:bg-black whitespace-pre-wrap border-zinc-700 rounded-2xl w-full px-4 h-[100px]"></textarea>
             <span v-if="question.text" class="text-gray-400 text-xs absolute left-7 bottom-8">{{ question.text.length +
-               "/150" }}</span>
+               "/100" }}</span>
          </div>
          <div v-for="(answer, answerIndex) in question.answers" :key="answerIndex" class="bg-bgray px-4 py-1 text-right">
 
             <div class="flex justify-center rtl:space-x-reverse items-center space-x-2">
+
                <label :for="questionIndex + '_' + answerIndex">
-                  <i v-if="question.correctAnswer === answerIndex"
-                     class="text-green-500 bg-gray-200 rounded-full font-bold text-2xl fa-solid fa-circle-check"></i>
-                  <i v-else class="text-zinc-700 font-bold text-2xl fa-regular fa-circle"></i>
+                  <div class="rounded-full inline-block w-7 h-7">
+                     <i v-if="question.correctAnswer === answerIndex"
+                        class="text-green-500 font-bold text-2xl fa-solid fa-circle-check  rounded-full "></i>
+                     <i v-else class="text-zinc-700 font-bold text-2xl fa-regular fa-circle"></i>
+                  </div>
                </label>
                <input type="radio" :value="answerIndex" v-model.trim="question.correctAnswer"
                   :id="questionIndex + '_' + answerIndex" class="hidden" />
                <textarea v-model="answer.text"
-                  :class="question.correctAnswer === answerIndex ? 'bg-green-600' : 'bg-transparent'" maxlength="100"
+                  :class="question.correctAnswer === answerIndex ? 'bg-green-600' : 'bg-transparent'" maxlength="70"
                   class="pt-0.5 text-lg items-start border-[2.8px] border-zinc-700 rounded-2xl w-full px-4 h-[70px] text-right resize-none outline-none focus:outline-none focus:border-blue-800 hover:border-blue-800 whitespace-pre-wrap focus:bg-black"></textarea>
-
-               <button class="" @click="deleteAnswer(questionIndex, answerIndex)" :disabled="question.answers.length <= 2">
-                  <i class="fa-solid fa-circle-xmark text-2xl bg-gray-200 rounded-full text-rose-700"></i>
+               <button class="inline-block relative p-0 border-0 bg-transparent"
+                  @click="deleteAnswer(questionIndex, answerIndex)" :disabled="question.answers.length <= 2">
+                  <i class="fa-solid fa-circle-xmark w-6 h-6 text-2xl leading-5 text-rose-700 bg-white rounded-full"></i>
                </button>
             </div>
          </div>
@@ -60,14 +63,18 @@
          <div class="flex justify-center items-center space-x-1 rtl:space-x-reverse mb-2">
             <button v-for="color in colorOptions" :key="color" @click="setQuestionColor(questionIndex, color)">
                <i v-if="question.color === color" :style="{ color: question.color }"
-                  class=" border-none bg-white rounded-full font-bold outline-none text-2xl fas fa-circle-check"></i>
+                  class="border-none  bg-white rounded-full  outline-none text-2xl fas fa-circle-check "
+                  style="border-radius: 50%;"></i>
                <i v-else :style="{ backgroundColor: color }"
-                  class=" rounded-full border-none outline-none text-transparent font-bold text-2xl far fa-circle"></i>
+                  class=" rounded-full border-none outline-none text-transparent  text-2xl far fa-circle "></i>
             </button>
          </div>
+
       </div>
-      <button @click.prevent="saveChanges" class="py-3 mb-2 bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 rounded-full font-bold w-full ">سەیڤیکە {{
-         name }} گیان</button>
+      <button @click.prevent="saveChanges"
+         class="py-3 mb-2 bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 rounded-full font-bold w-full ">سەیڤیکە
+         {{
+            name }} گیان</button>
 
    </div>
 </template>

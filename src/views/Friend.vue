@@ -1,9 +1,8 @@
 <template>
-    <div class=" flex-col  h-screen text-center overflow-auto  bg-zinc-950 transition-all duration-400  text-gray-200 relative font-ckb"
+    <div class="flex-col h-screen text-center overflow-auto bg-zinc-950 transition-all duration-400 text-gray-200 relative font-ckb"
         dir="rtl">
-
         <FriendName v-if="showFriend && !haveAnswered" @friendClicked="showFriend = false" />
-        <AnswerQuizzes v-else-if="!showFriend && !haveAnswered" @beforeExistsId="haveAnswered = false" />
+        <AnswerQuizzes v-else-if="!showFriend && !haveAnswered" @showResult="haveAnswered = true" />
         <AnswerResult v-if="haveAnswered && !showFriend" />
         <Footer />
     </div>

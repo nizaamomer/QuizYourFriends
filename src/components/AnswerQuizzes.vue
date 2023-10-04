@@ -2,8 +2,7 @@
    <div class="text-center  flex justify-center items-center min-h-screen overflow-auto"
       :style="{ backgroundColor: currentQuestionColor.rgba }">
       <div
-         class="w-full mx-auto max-w-2xl space-y-5 bg-transparent border -mt-36 md:-mt-7 border-transparent text-gray-100 rounded-3xl px-4 md:px-8 text-lg font-semibold"
-         :class="startAnimation">
+         class="w-full mx-auto max-w-2xl space-y-5 bg-transparent border -mt-36 md:-mt-7 border-transparent text-gray-100 rounded-3xl px-4 md:px-8 text-lg font-semibold">
          <div>
             <div class="rounded-t-3xl p-6 text-xl" :style="{ backgroundColor: currentQuestionColor.rgb }">
                پرسیارەکانی {{ Quizzes.creatorName }} گیان
@@ -12,7 +11,7 @@
                <div v-if="currentQuestionIndex < (Quizzes.questions ? Quizzes.questions.length : 0)"
                   class="flex justify-center items-center space-x-4 space-x-reverse">
                   <span class="text-gray-300">{{ currentQuestionIndex + 1 }}/{{ Quizzes.questions.length }}</span>
-                  <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700">
+                  <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700" dir="ltr">
                      <div class="h-4 bg-emerald-500 rounded-full  "
                         :style="{ width: ((currentQuestionIndex + 1) / (Quizzes.questions.length)) * 100 + '%' }"></div>
                   </div>
@@ -25,10 +24,10 @@
             </div>
             <div class="bg-gray-900 rounded-b-3xl p-6 space-y-2 text-right">
                <div v-for="(answer, ansIndex) in Quizzes.questions[currentQuestionIndex].answers" :key="ansIndex" :class="{
-                  'px-8 border-[3.5px] border-gray-500 text-gray-200 sm:hover:border-blue-400 rounded-3xl py-1.5': !showAnswerFeedback,
-                  'px-3 border-[3.5px] rounded-3xl py-1.5 border-green-500': showAnswerFeedback && isCorrectAnswer(ansIndex),
-                  'px-3 border-[3.5px] rounded-3xl py-1.5 border-red-500': showAnswerFeedback && isIncorrectAnswer(ansIndex),
-                  'px-8 border-[3.5px] rounded-3xl py-1.5 border-gray-500': !showAnswerFeedback || (showAnswerFeedback && selectedAnswerIndex !== ansIndex),
+                  'px-8 border-[3.5px] border-gray-500 text-gray-200 sm:hover:border-blue-400 rounded-3xl py-2': !showAnswerFeedback,
+                  'px-3 border-[3.5px] rounded-3xl py-2 border-green-500': showAnswerFeedback && isCorrectAnswer(ansIndex),
+                  'px-3 border-[3.5px] rounded-3xl py-2 border-red-500': showAnswerFeedback && isIncorrectAnswer(ansIndex),
+                  'px-8 border-[3.5px] rounded-3xl py-2 border-gray-500': !showAnswerFeedback || (showAnswerFeedback && selectedAnswerIndex !== ansIndex),
                }" @click="selectAnswer(ansIndex)">
                   <i v-if="showAnswerFeedback && isCorrectAnswer(ansIndex)"
                      class="fa-solid fa-circle-check text-green-500"></i>
@@ -119,16 +118,11 @@ const selectAnswer = (ansIndex) => {
       }, 2000);
    }
 };
-const startAnimation = ref("")
-const start = () => {
-   startAnimation.value = 'transition-all duration-700  scale-50';
-   setTimeout(() => {
-      emits('beforeExistsId')
-   }, 270);
-};
 const showResults = async () => {
    localStorage.setItem(quizId, totalCorrectAnswers.value);
    try {
+
+      emits('showResult')
       const docRef = doc(quizzesCollection, quizId);
       const docSnapshot = await getDoc(docRef);
       if (docSnapshot.exists()) {
@@ -149,7 +143,7 @@ const showResults = async () => {
          await updateDoc(docRef, {
             results: existingData.results,
          });
-         start()
+
       } else {
 
          await setDoc(docRef, {
@@ -160,8 +154,9 @@ const showResults = async () => {
                },
             ],
          });
-         start()
+
       }
+      location.reload();
    } catch (error) {
       router.push({ name: 'notFound' })
    }
